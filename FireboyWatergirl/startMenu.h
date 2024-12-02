@@ -4,12 +4,27 @@
 #include<SFML/Audio.hpp>
 #include<SFML/Window.hpp>
 #include<SFML/Network.hpp>
+#include<iostream>
+#include"game.h"
+#include"rankingList.h"
+#include"TextFormating.h"
+
+#define STARTMENUMAX 3
 
 class StartMenu
 {
 public:
-	StartMenu(float width, float height); //class constructor it initializes 
+	StartMenu(); //class constructor it initializes Text/choice
 
+	//init
+	void initVars();
+	void initWin();
+
+	//Window related functions
+	void update();
+	void render();
+	bool running();
+	
 	//functions that change user choice (moveUp: choice--, moveDown: choice++)
 	void moveUp();
 	void moveDown();
@@ -21,6 +36,15 @@ public:
 private:
 	int choice; //stores the value the user chooses (0 start, 1 show ranking list, 2 exit)
 	sf::Font font;
-	sf::Text startMenuText[3];  //array of text with the three menu (text) options
+	sf::Text startMenuText[STARTMENUMAX];  //array of text with the three menu (text) options
+
+	//Window related vars
+	sf::RenderWindow* win;
+	sf::Event ev;
+	sf::VideoMode videoMode;
+	
+	//background
+	sf::RectangleShape background;
+	sf::Texture texture;
 
 };

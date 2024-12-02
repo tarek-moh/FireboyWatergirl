@@ -136,13 +136,17 @@
     <ClCompile Include="FireboyWatergirl.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="rankingList.cpp" />
     <ClCompile Include="startMenu.cpp" />
+    <ClCompile Include="TextFormating.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
     <ClInclude Include="gameBoard.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="rankingList.h" />
     <ClInclude Include="startMenu.h" />
+    <ClInclude Include="TextFormating.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

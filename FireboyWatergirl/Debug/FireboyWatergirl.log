@@ -1,6 +1,12 @@
-﻿  FireboyWatergirl.cpp
-  game.cpp
-  player.cpp
-  startMenu.cpp
-  Generating Code...
-  FireboyWatergirl.vcxproj -> C:\Users\tarek\OneDrive\Desktop\FireboyWatergirl\Debug\FireboyWatergirl.exe
+﻿  startMenu.cpp
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,75): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,75): warning C4244:         with
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,75): warning C4244:         [
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,75): warning C4244:             T=float
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,75): warning C4244:         ]
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,52): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,52): warning C4244:         with
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,52): warning C4244:         [
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,52): warning C4244:             T=float
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,52): warning C4244:         ]
+  FireboyWatergirl.vcxproj -> D:\programming\FireboyWatergirl\Debug\FireboyWatergirl.exe

@@ -1,15 +1,15 @@
 #include "game.h"
-
+#include "startMenu.h"
 
 int main()
 {
-    Game game;
-    while (game.running())
+    StartMenu startMenu;
+    while (startMenu.running())
     {
         //update..
-        game.update();
+        startMenu.update();
         //render
-        game.render();
+        startMenu.render();
 
     }
 
