@@ -16,7 +16,27 @@ Game::~Game()
 
 void Game::update()
 {
+	delTatime = clock.restart().asSeconds();
+
 	poll();
+	for (int i = 0; i < 15; i++)
+	{
+		handle_player_collision(gameboard.fireboy, gameboard.blocks[i]);
+		handle_player_collision(gameboard.watergirl, gameboard.blocks[i]);
+	}
+
+	for (int i = 0; i < 3 ; i++)
+	{
+		handle_border_collision(gameboard.fireboy, gameboard.borders[i]);
+		handle_border_collision(gameboard.watergirl, gameboard.borders[i]);
+	}
+
+
+	//update player
+	gameboard.watergirl.sprite.move(gameboard.watergirl.velocity * delTatime);
+	gameboard.watergirl.delTajump += gameboard.watergirl.velocity.y * delTatime;
+	gameboard.fireboy.sprite.move(gameboard.fireboy.velocity * delTatime);
+	gameboard.fireboy.delTajump += gameboard.fireboy.velocity.y * delTatime;
 
 }
 
@@ -24,6 +44,24 @@ void Game::render()
 {
 	this->win->clear(sf::Color(0, 0, 0, 255));
 	//draw
+	win->draw(gameboard.bg);
+	win->draw(gameboard.fireboy.sprite);
+	win->draw(gameboard.watergirl.sprite);
+	//doors
+	win->draw(gameboard.fDoor);
+	win->draw(gameboard.wDoor);
+	//
+	for (int i = 0; i < 11; i++)
+	{
+		win->draw(gameboard.blocks[i]);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		win->draw(gameboard.borders[i]);
+	}
+	win->draw(gameboard.lava);
+	win->draw(gameboard.water);
+	win->draw(gameboard.goo);
 
 
 	//display
@@ -38,16 +76,131 @@ bool Game::running()
 
 void Game::initVars()
 {
+	initGameboard();
+
+}
+
+void Game::initGameboard()
+{
+	//fireboy initialization (texture, scale, textureRec, pos)
+	if (!gameboard.fireboyT.loadFromFile("assets/sprites/fireboy_sprite.png"))
+	{
+		std::cout << "couldn't load fireboy\n";
+	}
+	gameboard.fireboy.sprite.setTexture(gameboard.fireboyT);
+	gameboard.fireboy.sprite.setScale(.85, .85);
+	gameboard.fireboy.sprite.setTextureRect(sf::IntRect(467, 277, 55, 100));
+	gameboard.fireboy.sprite.setPosition(100, 650);
+
+	//watergirl initialization (texture, scale, textureRec, pos)
+
+	if (!gameboard.watergirlT.loadFromFile("assets/sprites/watergirl_sprite.png"))
+	{
+		std::cout << "couldn't load watergirl\n";
+	}
+	gameboard.watergirl.sprite.setTexture(gameboard.watergirlT);
+	gameboard.watergirl.sprite.setScale(.85, .85);
+	gameboard.watergirl.sprite.setTextureRect(sf::IntRect(340, 472, 56, 86));
+	gameboard.watergirl.sprite.setPosition(100, 650);
+
+	//initialize background
+	gameboard.bg.setSize(sf::Vector2f(1280, 900));
+	gameboard.bgT.loadFromFile("assets/images/background2.png");
+	gameboard.bg.setTexture(&gameboard.bgT);
+	
+	//initilize borders
+
+	gameboard.borders[0].setSize(sf::Vector2f(1280.f, 35.f)); //ceiling
+	gameboard.borders[1].setSize(sf::Vector2f(35.f, 1280.f));// right wall
+	gameboard.borders[2].setSize(sf::Vector2f(35.f, 1280.f)); //left wall
+	gameboard.borders[0].setPosition(0, 0);
+	gameboard.borders[1].setPosition(1245, 0);
+	gameboard.borders[2].setPosition(0, 0);
+
+	gameboard.groundT.setRepeated(1);
+	gameboard.groundT.loadFromFile("assets/images/bground1.png");
+	gameboard.borders[0].setTexture(&gameboard.groundT); //ceiling
+	gameboard.wallsT.loadFromFile("assets/images/bground2.png");
+	gameboard.wallsT.setRepeated(1);
+	gameboard.borders[1].setTexture(&gameboard.wallsT);
+	gameboard.borders[1].setTextureRect(sf::IntRect(105, 120, 35, 900)); // right wall
+	gameboard.borders[2].setTexture(&gameboard.wallsT);
+	gameboard.borders[2].setTextureRect(sf::IntRect(105, 120, 35, 900)); //left wall
+
+	//floor 0
+	gameboard.blocks[0].setPosition(35, 740);
+	gameboard.blocks[0].setScale(.7, 1);
+
+	gameboard.blocks[1].setPosition(1170, 735);
+	gameboard.blocks[1].setScale(1, 1);
+
+	//floor 1
+	gameboard.blocks[4].setPosition(35, 605);
+	gameboard.blocks[4].setScale(1, 1);
+
+	gameboard.blocks[5].setPosition(490, 640);
+	gameboard.blocks[5].setScale(1.25, 1);
 
 
+	//floor 2
+
+	gameboard.blocks[2].setPosition(760, 435);
+	gameboard.blocks[2].setScale(1, 1);
+
+	gameboard.blocks[3].setPosition(175, 400);
+	gameboard.blocks[3].setScale(1.25, 1);
+	//floor 3
+	gameboard.blocks[6].setPosition(35, 270);
+	gameboard.blocks[6].setScale(2.2, 0.75);
+
+	//final floor
+	gameboard.blocks[7].setPosition(35, 150); 
+	gameboard.blocks[7].setScale(1, 1);
+
+	gameboard.blocks[8].setPosition(35, 865);
+	gameboard.blocks[8].setScale(2.5, 1);
+
+	gameboard.blocksT.loadFromFile("assets/images/Tb1.png");
+	gameboard.blocksT.setRepeated(1);
+	for (int i = 0; i < 9; i++)
+	{
+		gameboard.blocks[i].setTexture(gameboard.blocksT);
+	}
+
+	//zone initialization
+	gameboard.lavaT.loadFromFile("assets/images/flake.png");
+	gameboard.lava.setTexture(gameboard.lavaT);
+	gameboard.lava.setPosition(500, 865);
+
+	gameboard.waterT.loadFromFile("assets/images/wlake.png");
+	gameboard.water.setTexture(gameboard.waterT);
+	gameboard.water.setPosition(900, 865);
+
+	gameboard.gooT.loadFromFile("assets/images/glake.png");
+	gameboard.goo.setTexture(gameboard.gooT);
+	gameboard.goo.setTextureRect(sf::IntRect(0, 0, 170, 72));
+	gameboard.goo.setPosition(520, 640);
+
+	//door initialization
+	gameboard.wDoorT.loadFromFile("assets/images/water door1.PNG");
+	gameboard.wDoor.setTexture(gameboard.wDoorT);
+	gameboard.wDoor.setTextureRect(sf::IntRect(3, 1, 110, 125));
+	gameboard.wDoor.setPosition(300, 60);
+	gameboard.wDoor.scale(0.75, 0.75);
+	// Fire door
+	gameboard.fDoorT.loadFromFile("assets/images/fire door1.PNG");
+	gameboard.fDoor.setTexture(gameboard.fDoorT);
+	gameboard.fDoor.setTextureRect(sf::IntRect(3, 1, 110, 125));
+	gameboard.fDoor.setPosition(100, 60);
+	gameboard.fDoor.scale(0.75, 0.75);
 }
 
 void Game::initWin()
 {
-	this->videoMode.width = 640;
-	this->videoMode.height = 480;
+	this->videoMode.width = 1280;
+	this->videoMode.height = 900;
 
-	this->win = new sf::RenderWindow(this->videoMode, "FirstGame!", sf::Style::Default | sf::Style::Titlebar | sf::Style::Close);
+	this->win = new sf::RenderWindow(this->videoMode, "FireboyWatergirl!");
 	this->win->setFramerateLimit(60);
 
 }
@@ -55,7 +208,7 @@ void Game::initWin()
 void Game::poll()
 {
 	while (this->win->pollEvent(this->ev)) {
-
+		
 		switch (this->ev.type)
 		{
 		case sf::Event::Closed:
@@ -65,41 +218,157 @@ void Game::poll()
 			if (ev.key.code == sf::Keyboard::Escape)
 				this->win->close();
 			break;
+
+		}
+		if (ev.type == sf::Event::KeyPressed)
+		{
+			if (ev.key.code == sf::Keyboard::Right)
+				gameboard.fireboy.velocity.x = gameboard.fireboy.speed;  //fireboy move right
+			
+
+			if (ev.key.code == sf::Keyboard::Left )
+				gameboard.fireboy.velocity.x = -gameboard.fireboy.speed;  //fireboy move left
+
+			if (ev.key.code == sf::Keyboard::Up && !gameboard.fireboy.isJumping)
+			{
+				gameboard.fireboy.velocity.y = -gameboard.fireboy.jumpstrength;
+
+				gameboard.fireboy.isJumping = true;
+			}
+		}
+
+		if (ev.type == sf::Event::KeyReleased)  //stop movement if key is released
+		{
+			if (ev.key.code == sf::Keyboard::Right || ev.key.code == sf::Keyboard::Left)
+				gameboard.fireboy.velocity.x = 0.0f;    //stop horizontal motion
+		}
+
+		if (ev.type == sf::Event::KeyPressed)
+		{
+			if (ev.key.code == sf::Keyboard::D)
+				gameboard.watergirl.velocity.x = gameboard.watergirl.speed;  //watergirl move right
+
+			if (ev.key.code == sf::Keyboard::A )
+				gameboard.watergirl.velocity.x = -gameboard.watergirl.speed;  //watergirl move left
+
+			if (ev.key.code == sf::Keyboard::W && !gameboard.watergirl.isJumping)
+			{
+				gameboard.watergirl.velocity.y = -gameboard.watergirl.jumpstrength;
+				gameboard.watergirl.isJumping = true;
+			}
+		}
+
+		if (ev.type == sf::Event::KeyReleased)  //stop movement if key is released
+		{
+			if (ev.key.code == sf::Keyboard::A || ev.key.code == sf::Keyboard::D)
+				gameboard.watergirl.velocity.x = 0.0f;    //stop horizontal motion
 		}
 	}
 }
+bool Game::is_not_colliding_from_bottom(const Player& player, const sf::Sprite& block) {
+	// Get player and block bounds
+	sf::FloatRect char_bounds = player.sprite.getGlobalBounds();
+	sf::FloatRect block_bounds = block.getGlobalBounds();
 
+	// Check for intersection
+	if (char_bounds.intersects(block_bounds)) {
+		// Check if the player is NOT colliding from the bottom
+		return char_bounds.top + char_bounds.height < block_bounds.top ;
+	}
 
-void Game::initFont()
-{
-	//if (this->font.loadFromFile("Fonts/CanvasBags-ZrqB.ttf"))
-	//{
-	//	std::cout << "fonts successfuly loaded!\n";
-	//}
-	//else
-	//	std::cout << "Warning:: error while loading fonts\n";
-
-}
-void Game::initText()
-{
-	//text.setFont(font);
-	//text.setCharacterSize(30);
-	//text.setString("NONE");
-
-	//GameOverText.setFont(font);
-	//GameOverText.setCharacterSize(70);
-	//GameOverText.setString("GAME OVER");
-	//GameOverText.setStyle(sf::Text::Bold);
-	//GameOverText.setFillColor(sf::Color::Red);
-
-	//sf::Vector2u windowSize = this->win->getSize(); // Replace `window` with your sf::RenderWindow
-	//GameOverText.setPosition(
-	//	windowSize.x / 2.f - GameOverText.getGlobalBounds().width / 2.f,
-	//	windowSize.y / 2.f - GameOverText.getGlobalBounds().height / 2.f
-	//);
+	// No collision
+	return false;
 }
 
-void Game::renderText()
+void Game::handle_player_collision(Player& player, const sf::Sprite& block)
 {
-	//this->win->draw(text);
+	// Get character & block bounds
+	sf::FloatRect char_bounds = player.sprite.getGlobalBounds();
+	sf::FloatRect block_bounds = block.getGlobalBounds();
+	float SPEED = gameboard.fireboy.speed;
+	// Cases: Above / Under / To the left of / to the right of
+
+	// Determine the overlap between the player and the block
+	if (char_bounds.intersects(block_bounds)) {
+		// Determine the overlap between the player and the rectangle
+		sf::FloatRect overlap;
+		if (char_bounds.top < block_bounds.top)
+		{
+			overlap.height = char_bounds.top + char_bounds.height - block_bounds.top;// player hit from legs
+		}
+		else
+		{
+			overlap.height = block_bounds.top + block_bounds.height - char_bounds.top;// player hit from head
+		}
+		if (char_bounds.left < block_bounds.left)
+		{
+			overlap.width = char_bounds.left + char_bounds.width - block_bounds.left;
+		}
+		else
+		{
+			overlap.width = block_bounds.left + block_bounds.width - char_bounds.left;
+		}
+
+		// Resolve the collision based on the overlap direction
+		if (overlap.width < overlap.height) //side collision
+		{ 
+			if (char_bounds.left < block_bounds.left)
+			{
+				player.velocity.x += -10;
+
+			}
+			else
+			{
+				player.velocity.x += 10;
+			}
+		}
+		else //collision top-bottom
+		{	
+			// from top of block
+			if (char_bounds.top + (char_bounds.height * 0.1) < block_bounds.top)
+			{
+				player.isJumping = false;
+				player.velocity.y = 0;
+				player.sprite.setPosition(player.sprite.getPosition().x, block_bounds.top - char_bounds.height);
+			}
+			// from bottom
+			else
+			{
+				player.velocity.y = 200;
+				player.velocity.y += 981.0f * delTatime;
+			}
+		}
+	}
+
+
+	if (fabs(player.delTajump) > player.jumpheight)
+	{
+		player.delTajump = 0;
+		player.velocity.y = 200;
+		player.velocity.y += 981.0f * delTatime;
+
+	}
+	if (!player.isJumping && is_not_colliding_from_bottom(player, block))
+	{
+		player.velocity.y = 200;
+		player.velocity.y += 981.0f * delTatime;
+		player.isJumping = 1;
+	}
+
+}
+
+void Game::handle_border_collision(Player& player, const sf::RectangleShape& borders)
+{
+	sf::FloatRect player_bounds = player.sprite.getGlobalBounds();
+	sf::FloatRect borders_bounds = borders.getGlobalBounds();
+
+	if (player_bounds.intersects(borders_bounds))
+	{
+		float dis = 3.f;
+		(player.velocity.x < 0) ? dis *= 1 : dis *= -1;
+		player.velocity.x = 0;
+		
+		player.sprite.move(dis,0);
+	}
+	
 }

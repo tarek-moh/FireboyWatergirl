@@ -1,12 +1,8 @@
-﻿  startMenu.cpp
-D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,75): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
-D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,75): warning C4244:         with
-D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,75): warning C4244:         [
-D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,75): warning C4244:             T=float
-D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,75): warning C4244:         ]
-D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,52): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
-D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,52): warning C4244:         with
-D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,52): warning C4244:         [
-D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,52): warning C4244:             T=float
-D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,52): warning C4244:         ]
+﻿  game.cpp
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(91,41): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(91,36): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(102,43): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(102,38): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(132,31): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(154,31): warning C4305: 'argument': truncation from 'double' to 'float'
   FireboyWatergirl.vcxproj -> D:\programming\FireboyWatergirl\Debug\FireboyWatergirl.exe

@@ -15,17 +15,17 @@ void StartMenu::initVars()
 {
     this->choice = 0; //sets choice to start by default
     int charSize = 30;
-    //load font and background
+    //load font and backborders
     if (!this->font.loadFromFile("assets/fonts/OpenSans-Regular.ttf"))
     {
         std::cout << "ERROR:: couldn't load font\n";
     }
-    this->background.setSize(sf::Vector2f(videoMode.width, this->videoMode.height));
+    this->backborders.setSize(sf::Vector2f(videoMode.width, this->videoMode.height));
     if (!this->texture.loadFromFile("assets/backgrounds/startMenu.png") )
     {
-        std::cout << "ERROR:: couldn't load background\n";
+        std::cout << "ERROR:: couldn't load backborders\n";
     }
-    background.setTexture(&this->texture);
+    backborders.setTexture(&this->texture);
 
     //Start button 
     sf::Text start;
@@ -139,7 +139,7 @@ void StartMenu::render()
     //clear window first
     this->win->clear();
     //draw 
-    this->win->draw(background);
+    this->win->draw(backborders);
 
     for (auto& text : this->startMenuText)
         this->win->draw(text);

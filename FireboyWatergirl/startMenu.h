@@ -43,8 +43,8 @@ private:
 	sf::Event ev;
 	sf::VideoMode videoMode;
 	
-	//background
-	sf::RectangleShape background;
+	//backborders
+	sf::RectangleShape backborders;
 	sf::Texture texture;
 
 };

@@ -7,7 +7,7 @@
 #include<SFML/Network.hpp>
 #include<vector>
 #include<sstream>
-
+#include"gameBoard.h"
 
 class Game
 {
@@ -21,16 +21,21 @@ public:
 private:
 	//init
 	void initVars();
+	void initGameboard();
 	void initWin();
 
 
 	//event polling
 	void poll();
 
-	//controls
+	bool is_not_colliding_from_bottom(const Player& player, const sf::Sprite& block);
 
+	//Controls
 
 	//game logic
+	GameBoard gameboard;
+	void handle_player_collision(Player&, const sf::Sprite&);
+	void handle_border_collision(Player&, const sf::RectangleShape&);
 
 	//UI
 	sf::Font font;
@@ -45,10 +50,7 @@ private:
 	sf::RenderWindow* win;
 	sf::Event ev;
 	sf::VideoMode videoMode;
-
-	//controls
-	sf::Vector2i mousePosWindow;
-	sf::Vector2f mousePosView;
-
+	sf::Clock clock;
+	float delTatime=0.0f;
 
 };
