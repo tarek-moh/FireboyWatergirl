@@ -17,26 +17,34 @@ Game::~Game()
 void Game::update()
 {
 	delTatime = clock.restart().asSeconds();
+	gameboard.fireboy.isGrounded = false;
+	gameboard.watergirl.isGrounded = false;
 
 	poll();
+
+
+	// Update players
+	if (!gameboard.fireboy.isGrounded) {
+		gameboard.fireboy.velocity.y += 981.0f * delTatime; // Gravity
+	}
+	if (!gameboard.watergirl.isGrounded) {
+		gameboard.watergirl.velocity.y += 981.0f  * delTatime; // Gravity
+	}
+	gameboard.watergirl.sprite.move(gameboard.watergirl.velocity * delTatime);
+	gameboard.watergirl.delTajump += gameboard.watergirl.velocity.y * delTatime;
+	gameboard.fireboy.sprite.move(gameboard.fireboy.velocity * delTatime);
+	gameboard.fireboy.delTajump += gameboard.fireboy.velocity.y * delTatime;
 	for (int i = 0; i < 15; i++)
 	{
 		handle_player_collision(gameboard.fireboy, gameboard.blocks[i]);
 		handle_player_collision(gameboard.watergirl, gameboard.blocks[i]);
 	}
 
-	for (int i = 0; i < 3 ; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		handle_border_collision(gameboard.fireboy, gameboard.borders[i]);
 		handle_border_collision(gameboard.watergirl, gameboard.borders[i]);
 	}
-
-
-	//update player
-	gameboard.watergirl.sprite.move(gameboard.watergirl.velocity * delTatime);
-	gameboard.watergirl.delTajump += gameboard.watergirl.velocity.y * delTatime;
-	gameboard.fireboy.sprite.move(gameboard.fireboy.velocity * delTatime);
-	gameboard.fireboy.delTajump += gameboard.fireboy.velocity.y * delTatime;
 
 }
 
@@ -106,6 +114,7 @@ void Game::initGameboard()
 	//initialize background
 	gameboard.bg.setSize(sf::Vector2f(1280, 900));
 	gameboard.bgT.loadFromFile("assets/images/background2.png");
+	gameboard.bgT.setRepeated(1);
 	gameboard.bg.setTexture(&gameboard.bgT);
 	
 	//initilize borders
@@ -265,7 +274,7 @@ void Game::poll()
 		}
 	}
 }
-bool Game::is_not_colliding_from_bottom(const Player& player, const sf::Sprite& block) {
+bool Game::is_colliding_from_bottom(const Player& player, const sf::Sprite& block) {
 	// Get player and block bounds
 	sf::FloatRect char_bounds = player.sprite.getGlobalBounds();
 	sf::FloatRect block_bounds = block.getGlobalBounds();
@@ -273,7 +282,7 @@ bool Game::is_not_colliding_from_bottom(const Player& player, const sf::Sprite& 
 	// Check for intersection
 	if (char_bounds.intersects(block_bounds)) {
 		// Check if the player is NOT colliding from the bottom
-		return char_bounds.top + char_bounds.height < block_bounds.top ;
+		return char_bounds.top + (char_bounds.height * 0.1) < block_bounds.top;
 	}
 
 	// No collision
@@ -282,80 +291,54 @@ bool Game::is_not_colliding_from_bottom(const Player& player, const sf::Sprite& 
 
 void Game::handle_player_collision(Player& player, const sf::Sprite& block)
 {
-	// Get character & block bounds
 	sf::FloatRect char_bounds = player.sprite.getGlobalBounds();
 	sf::FloatRect block_bounds = block.getGlobalBounds();
-	float SPEED = gameboard.fireboy.speed;
-	// Cases: Above / Under / To the left of / to the right of
 
-	// Determine the overlap between the player and the block
 	if (char_bounds.intersects(block_bounds)) {
-		// Determine the overlap between the player and the rectangle
 		sf::FloatRect overlap;
-		if (char_bounds.top < block_bounds.top)
-		{
-			overlap.height = char_bounds.top + char_bounds.height - block_bounds.top;// player hit from legs
-		}
-		else
-		{
-			overlap.height = block_bounds.top + block_bounds.height - char_bounds.top;// player hit from head
-		}
-		if (char_bounds.left < block_bounds.left)
-		{
-			overlap.width = char_bounds.left + char_bounds.width - block_bounds.left;
-		}
-		else
-		{
-			overlap.width = block_bounds.left + block_bounds.width - char_bounds.left;
-		}
 
-		// Resolve the collision based on the overlap direction
-		if (overlap.width < overlap.height) //side collision
-		{ 
-			if (char_bounds.left < block_bounds.left)
-			{
-				player.velocity.x += -10;
+		// Calculate the overlap
+		overlap.height = std::min(char_bounds.top + char_bounds.height, block_bounds.top + block_bounds.height) -
+			std::max(char_bounds.top, block_bounds.top);
+		overlap.width = std::min(char_bounds.left + char_bounds.width, block_bounds.left + block_bounds.width) -
+			std::max(char_bounds.left, block_bounds.left);
 
+		if (overlap.width < overlap.height) {
+			// Side collision
+			if (char_bounds.left < block_bounds.left) {
+				player.sprite.setPosition(block_bounds.left - char_bounds.width - 0.5f, player.sprite.getPosition().y);
+				player.velocity.x = 0;
 			}
-			else
-			{
-				player.velocity.x += 10;
+			else {
+				player.sprite.setPosition(block_bounds.left + block_bounds.width + 0.5f, player.sprite.getPosition().y);
+				player.velocity.x = 0;
 			}
 		}
-		else //collision top-bottom
-		{	
-			// from top of block
-			if (char_bounds.top + (char_bounds.height * 0.1) < block_bounds.top)
-			{
+		else {
+			// Vertical collision
+			if (char_bounds.top < block_bounds.top) {
+				// Landing on top of the block
+				player.isGrounded = true;
 				player.isJumping = false;
 				player.velocity.y = 0;
 				player.sprite.setPosition(player.sprite.getPosition().x, block_bounds.top - char_bounds.height);
 			}
-			// from bottom
-			else
-			{
-				player.velocity.y = 200;
-				player.velocity.y += 981.0f * delTatime;
+			else {
+				// Hitting the block from below
+				player.velocity.y = 200; // Apply upward force for bounce
+				player.sprite.setPosition(player.sprite.getPosition().x, block_bounds.top + block_bounds.height + 0.5f);
 			}
 		}
 	}
 
-
-	if (fabs(player.delTajump) > player.jumpheight)
-	{
-		player.delTajump = 0;
-		player.velocity.y = 200;
-		player.velocity.y += 981.0f * delTatime;
-
-	}
-	if (!player.isJumping && is_not_colliding_from_bottom(player, block))
-	{
-		player.velocity.y = 200;
-		player.velocity.y += 981.0f * delTatime;
-		player.isJumping = 1;
-	}
+	//// Reset jump if exceeding max jump height
+	//if (fabs(player.delTajump) > player.jumpheight) {
+	//	player.delTajump = 0;
+	//	player.velocity.y = 200; // Reset downward velocity
+	//}
 
 }
+
 
 void Game::handle_border_collision(Player& player, const sf::RectangleShape& borders)
 {

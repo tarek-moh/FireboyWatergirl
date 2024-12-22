@@ -28,7 +28,7 @@ private:
 	//event polling
 	void poll();
 
-	bool is_not_colliding_from_bottom(const Player& player, const sf::Sprite& block);
+	bool is_colliding_from_bottom(const Player& player, const sf::Sprite& block);
 
 	//Controls
 

@@ -10,10 +10,12 @@ struct Player
 	sf::Sprite sprite;
 	sf::Vector2f velocity;
 	bool isJumping=false;
-	float speed = 150;
+	bool isGrounded = true;
+	float speed = 210;
 	const float jumpheight = 100;
 	float delTajump = 0;
-	float jumpstrength = 300;
+	float jumpstrength = 550.f;
+	
 
 };
 
