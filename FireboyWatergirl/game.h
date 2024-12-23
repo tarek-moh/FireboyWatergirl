@@ -36,6 +36,7 @@ private:
 	GameBoard gameboard;
 	void handle_player_collision(Player&, const sf::Sprite&);
 	void handle_border_collision(Player&, const sf::RectangleShape&);
+	void handle_zone_rules();
 
 	//UI
 	sf::Font font;

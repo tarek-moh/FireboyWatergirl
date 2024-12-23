@@ -25,15 +25,15 @@ void Game::update()
 
 	// Update players
 	if (!gameboard.fireboy.isGrounded) {
-		gameboard.fireboy.velocity.y += 981.0f * delTatime; // Gravity
+		gameboard.fireboy.velocity.y += 900.f * delTatime; // Gravity
 	}
 	if (!gameboard.watergirl.isGrounded) {
-		gameboard.watergirl.velocity.y += 981.0f  * delTatime; // Gravity
+		gameboard.watergirl.velocity.y += 900.f * delTatime; // Gravity
 	}
 	gameboard.watergirl.sprite.move(gameboard.watergirl.velocity * delTatime);
-	gameboard.watergirl.delTajump += gameboard.watergirl.velocity.y * delTatime;
+	//gameboard.watergirl.delTajump += gameboard.watergirl.velocity.y * delTatime;
 	gameboard.fireboy.sprite.move(gameboard.fireboy.velocity * delTatime);
-	gameboard.fireboy.delTajump += gameboard.fireboy.velocity.y * delTatime;
+	//gameboard.fireboy.delTajump += gameboard.fireboy.velocity.y * delTatime;
 	for (int i = 0; i < 15; i++)
 	{
 		handle_player_collision(gameboard.fireboy, gameboard.blocks[i]);
@@ -44,6 +44,45 @@ void Game::update()
 	{
 		handle_border_collision(gameboard.fireboy, gameboard.borders[i]);
 		handle_border_collision(gameboard.watergirl, gameboard.borders[i]);
+	}
+	//handle_player_collision(gameboard.fireboy, gameboard.lava);
+	//handle_player_collision(gameboard.fireboy, gameboard.water);
+	//handle_player_collision(gameboard.fireboy, gameboard.goo);
+	//handle_player_collision(gameboard.watergirl, gameboard.lava);
+	//handle_player_collision(gameboard.watergirl, gameboard.water);
+	//handle_player_collision(gameboard.watergirl, gameboard.goo);
+
+	handle_zone_rules();
+	//handling cool down achieving a 3 second cool down
+	gameboard.fireboy.cooldown -= delTatime;
+	gameboard.watergirl.cooldown -= delTatime;
+
+	//adding flashing effect for cooldown
+	if (gameboard.fireboy.cooldown > 0)
+	{
+		int opacity = static_cast<int>(128 + 127 * std::sin(9*(4- gameboard.fireboy.cooldown)));
+		sf::Color currentColor = gameboard.fireboy.sprite.getColor();
+		currentColor.a = opacity;
+		gameboard.fireboy.sprite.setColor(currentColor);
+	}
+	else
+	{
+		sf::Color currentColor = gameboard.fireboy.sprite.getColor();
+		currentColor.a = 255;
+		gameboard.fireboy.sprite.setColor(currentColor);
+	}
+	if (gameboard.watergirl.cooldown > 0)
+	{
+		int opacity = static_cast<int>(128 + 127 * std::sin(9 * (4 - gameboard.fireboy.cooldown)));
+		sf::Color currentColor = gameboard.watergirl.sprite.getColor();
+		currentColor.a = opacity;
+		gameboard.watergirl.sprite.setColor(currentColor);
+	}
+	else
+	{
+		sf::Color currentColor = gameboard.watergirl.sprite.getColor();
+		currentColor.a = 255;
+		gameboard.watergirl.sprite.setColor(currentColor);
 	}
 
 }
@@ -59,7 +98,7 @@ void Game::render()
 	win->draw(gameboard.fDoor);
 	win->draw(gameboard.wDoor);
 	//
-	for (int i = 0; i < 11; i++)
+	for (int i = 0; i < 15; i++)
 	{
 		win->draw(gameboard.blocks[i]);
 	}
@@ -70,7 +109,25 @@ void Game::render()
 	win->draw(gameboard.lava);
 	win->draw(gameboard.water);
 	win->draw(gameboard.goo);
+	
+	//dynamicaly drawing hearts
+	int xOffset = 60;
 
+	sf::Vector2f initialPos = gameboard.fireboyHeart.getPosition();
+	for (int i = 0; i < gameboard.fireboy.lifes; i++)
+	{
+		gameboard.fireboyHeart.setPosition(initialPos.x + xOffset * i, initialPos.y);
+		win->draw(gameboard.fireboyHeart);
+	}
+	gameboard.fireboyHeart.setPosition(initialPos.x, initialPos.y);
+
+	initialPos = gameboard.watergirlHeart.getPosition();
+	for (int i = 0; i < gameboard.watergirl.lifes; i++)
+	{
+		gameboard.watergirlHeart.setPosition(initialPos.x + xOffset * i, initialPos.y);
+		win->draw(gameboard.watergirlHeart);
+	}
+	gameboard.watergirlHeart.setPosition(initialPos.x, initialPos.y);
 
 	//display
 	this->win->display();
@@ -96,7 +153,7 @@ void Game::initGameboard()
 		std::cout << "couldn't load fireboy\n";
 	}
 	gameboard.fireboy.sprite.setTexture(gameboard.fireboyT);
-	gameboard.fireboy.sprite.setScale(.85, .85);
+	gameboard.fireboy.sprite.setScale(.8, .78);
 	gameboard.fireboy.sprite.setTextureRect(sf::IntRect(467, 277, 55, 100));
 	gameboard.fireboy.sprite.setPosition(100, 650);
 
@@ -111,12 +168,38 @@ void Game::initGameboard()
 	gameboard.watergirl.sprite.setTextureRect(sf::IntRect(340, 472, 56, 86));
 	gameboard.watergirl.sprite.setPosition(100, 650);
 
+	//initialzie player hearts
+
+	if (!gameboard.fireboyHeartT.loadFromFile("assets/images/fireboyHeart.png"))
+	{
+		std::cout << "couldn't load fireboy hearts\n";
+	}
+	gameboard.fireboyHeart.setTexture(gameboard.fireboyHeartT);
+	gameboard.fireboyHeart.setPosition(1000.f, 20.f);
+	gameboard.fireboyHeart.setScale(2, 2);
+
+	if (!gameboard.watergirlHeartT.loadFromFile("assets/images/watergirlHeart.png"))
+	{
+		std::cout << "couldn't load watergirl hearts\n";
+	}
+	gameboard.watergirlHeart.setTexture(gameboard.watergirlHeartT);
+	gameboard.watergirlHeart.setPosition(1000.f, 60.f);
+	gameboard.watergirlHeart.setScale(2, 2);
+
+
 	//initialize background
-	gameboard.bg.setSize(sf::Vector2f(1280, 900));
-	gameboard.bgT.loadFromFile("assets/images/background2.png");
-	gameboard.bgT.setRepeated(1);
-	gameboard.bg.setTexture(&gameboard.bgT);
-	
+
+
+	gameboard.bg.setPosition(0, 0);
+
+	if (!gameboard.bgT.loadFromFile("assets/images/bg.png")) {
+		std::cout << "Error loading background texture!" << std::endl;
+	}
+	gameboard.bg.setTexture(gameboard.bgT);
+	sf::Vector2u windowSize = this->win->getSize(); // Get the window size
+	float scaleX = (float)windowSize.x / gameboard.bgT.getSize().x;
+	float scaleY = (float)windowSize.y / gameboard.bgT.getSize().y;
+	gameboard.bg.setScale(scaleX, scaleY);
 	//initilize borders
 
 	gameboard.borders[0].setSize(sf::Vector2f(1280.f, 35.f)); //ceiling
@@ -137,18 +220,31 @@ void Game::initGameboard()
 	gameboard.borders[2].setTextureRect(sf::IntRect(105, 120, 35, 900)); //left wall
 
 	//floor 0
+
+	gameboard.blocks[8].setPosition(35, 865);
+	gameboard.blocks[8].setScale((500.f-35.f)/485.f, 1);
+
+	gameboard.blocks[9].setPosition(743, 865);
+	gameboard.blocks[9].setScale(1, 1);
+
+	gameboard.blocks[10].setPosition(500, 880);
+	gameboard.blocks[10].setScale(1, 1);
+
+
+	//floor 1
+
 	gameboard.blocks[0].setPosition(35, 740);
 	gameboard.blocks[0].setScale(.7, 1);
 
-	gameboard.blocks[1].setPosition(1170, 735);
+
+	gameboard.blocks[1].setPosition(1170, 755);
 	gameboard.blocks[1].setScale(1, 1);
 
-	//floor 1
-	gameboard.blocks[4].setPosition(35, 605);
+	gameboard.blocks[4].setPosition(35, 610);
 	gameboard.blocks[4].setScale(1, 1);
 
-	gameboard.blocks[5].setPosition(490, 640);
-	gameboard.blocks[5].setScale(1.25, 1);
+	gameboard.blocks[5].setPosition(490, 645);
+	gameboard.blocks[5].setScale(1.25, .5);
 
 
 	//floor 2
@@ -166,12 +262,11 @@ void Game::initGameboard()
 	gameboard.blocks[7].setPosition(35, 150); 
 	gameboard.blocks[7].setScale(1, 1);
 
-	gameboard.blocks[8].setPosition(35, 865);
-	gameboard.blocks[8].setScale(2.5, 1);
+
 
 	gameboard.blocksT.loadFromFile("assets/images/Tb1.png");
 	gameboard.blocksT.setRepeated(1);
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 15; i++)
 	{
 		gameboard.blocks[i].setTexture(gameboard.blocksT);
 	}
@@ -179,16 +274,23 @@ void Game::initGameboard()
 	//zone initialization
 	gameboard.lavaT.loadFromFile("assets/images/flake.png");
 	gameboard.lava.setTexture(gameboard.lavaT);
-	gameboard.lava.setPosition(500, 865);
+	gameboard.lava.setPosition(500, 870);
+
 
 	gameboard.waterT.loadFromFile("assets/images/wlake.png");
 	gameboard.water.setTexture(gameboard.waterT);
-	gameboard.water.setPosition(900, 865);
+	gameboard.water.setPosition(500, 750);
+	gameboard.water.setScale(.85, .7);
 
-	gameboard.gooT.loadFromFile("assets/images/glake.png");
+	gameboard.blocks[11].setPosition(500, 760);
+	gameboard.blocks[11].setScale(.49, .7);
+
+
+	gameboard.gooT.loadFromFile("assets/images/glake1.png");
 	gameboard.goo.setTexture(gameboard.gooT);
-	gameboard.goo.setTextureRect(sf::IntRect(0, 0, 170, 72));
-	gameboard.goo.setPosition(520, 640);
+	gameboard.goo.setTextureRect(sf::IntRect(0, 0, 170, 21));
+	gameboard.goo.setPosition(530, 645);
+	gameboard.goo.setScale(.90, .8);
 
 	//door initialization
 	gameboard.wDoorT.loadFromFile("assets/images/water door1.PNG");
@@ -274,20 +376,20 @@ void Game::poll()
 		}
 	}
 }
-bool Game::is_colliding_from_bottom(const Player& player, const sf::Sprite& block) {
-	// Get player and block bounds
-	sf::FloatRect char_bounds = player.sprite.getGlobalBounds();
-	sf::FloatRect block_bounds = block.getGlobalBounds();
-
-	// Check for intersection
-	if (char_bounds.intersects(block_bounds)) {
-		// Check if the player is NOT colliding from the bottom
-		return char_bounds.top + (char_bounds.height * 0.1) < block_bounds.top;
-	}
-
-	// No collision
-	return false;
-}
+//bool Game::is_colliding_from_bottom(const Player& player, const sf::Sprite& block) {
+//	// Get player and block bounds
+//	sf::FloatRect char_bounds = player.sprite.getGlobalBounds();
+//	sf::FloatRect block_bounds = block.getGlobalBounds();
+//
+//	// Check for intersection
+//	if (char_bounds.intersects(block_bounds)) {
+//		// Check if the player is NOT colliding from the bottom
+//		return char_bounds.top + (char_bounds.height * 0.1) < block_bounds.top;
+//	}
+//
+//	// No collision
+//	return false;
+//}
 
 void Game::handle_player_collision(Player& player, const sf::Sprite& block)
 {
@@ -325,18 +427,30 @@ void Game::handle_player_collision(Player& player, const sf::Sprite& block)
 			}
 			else {
 				// Hitting the block from below
-				player.velocity.y = 200; // Apply upward force for bounce
+				player.velocity.y = 0; // Apply upward force for bounce
 				player.sprite.setPosition(player.sprite.getPosition().x, block_bounds.top + block_bounds.height + 0.5f);
 			}
 		}
 	}
+}
 
-	//// Reset jump if exceeding max jump height
-	//if (fabs(player.delTajump) > player.jumpheight) {
-	//	player.delTajump = 0;
-	//	player.velocity.y = 200; // Reset downward velocity
-	//}
+void Game::handle_zone_rules()
+{
+	sf::FloatRect fireboyBounds = gameboard.fireboy.sprite.getGlobalBounds();
+	sf::FloatRect watergirlBounds = gameboard.watergirl.sprite.getGlobalBounds();
+	sf::FloatRect lava_bounds = gameboard.lava.getGlobalBounds();
+	sf::FloatRect water_bounds = gameboard.water.getGlobalBounds();
+	sf::FloatRect goo_bounds = gameboard.goo.getGlobalBounds();
 
+	if (fireboyBounds.intersects(water_bounds) && gameboard.fireboy.cooldown < 0) {
+	
+		gameboard.fireboy.cooldown = 3.f;
+		gameboard.fireboy.lifes--;
+	}
+	if (watergirlBounds.intersects(lava_bounds) && gameboard.watergirl.cooldown < 0) {
+		gameboard.watergirl.cooldown = 3.f;
+		gameboard.watergirl.lifes--;
+	}
 }
 
 
