@@ -10,10 +10,12 @@ struct Player
 	sf::Sprite sprite;
 	sf::Vector2f velocity;
 	bool isJumping=false;
-	float speed = 150;
+	bool isGrounded = true;
+	float speed = 210;
 	const float jumpheight = 100;
 	float delTajump = 0;
-	float jumpstrength = 300;
+	float jumpstrength = 550.f;
+
 
 };
 
@@ -29,6 +31,10 @@ struct GameBoard
 	sf::Sprite goo;
 	sf::Sprite wDoor;
 	sf::Sprite fDoor;
+	sf::Sprite Rgems[4];
+	sf::Sprite Bgems[4];
+	bool B_already_collided[4] = { false };
+	bool R_already_collided[4] = { false };
 
 	//textures
 	sf::Texture fireboyT;
@@ -42,4 +48,6 @@ struct GameBoard
 	sf::Texture gooT;
 	sf::Texture wDoorT;
 	sf::Texture fDoorT;
+	sf::Texture Red_gemsT;
+	sf::Texture Blue_gemsT;
 };

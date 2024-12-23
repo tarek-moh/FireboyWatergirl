@@ -28,7 +28,7 @@ private:
 	//event polling
 	void poll();
 
-	bool is_not_colliding_from_bottom(const Player& player, const sf::Sprite& block);
+	bool is_colliding_from_bottom(const Player& player, const sf::Sprite& block);
 
 	//Controls
 
@@ -36,6 +36,8 @@ private:
 	GameBoard gameboard;
 	void handle_player_collision(Player&, const sf::Sprite&);
 	void handle_border_collision(Player&, const sf::RectangleShape&);
+	bool display_Gem(Player&, sf::Sprite&, int,bool[4]);
+	int score(bool[4]);
 
 	//UI
 	sf::Font font;
@@ -52,5 +54,7 @@ private:
 	sf::VideoMode videoMode;
 	sf::Clock clock;
 	float delTatime=0.0f;
+	//static bool collided_once[4];
+	
 
 };
