@@ -16,7 +16,6 @@ struct Player
 	float delTajump = 0;
 	float jumpstrength = 550.f;
 
-
 };
 
 struct GameBoard 
