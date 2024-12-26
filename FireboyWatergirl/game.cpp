@@ -1,12 +1,12 @@
 #include "game.h"
 #include <iostream>
 #include<cstdlib>
+#include<cmath>
 
 Game::Game()
 {
 	initWin();
 	initVars();
-
 }
 
 Game::~Game()
@@ -31,26 +31,35 @@ void Game::update()
 		gameboard.watergirl.velocity.y += 900.f * delTatime; // Gravity
 	}
 	gameboard.watergirl.sprite.move(gameboard.watergirl.velocity * delTatime);
-	//gameboard.watergirl.delTajump += gameboard.watergirl.velocity.y * delTatime;
 	gameboard.fireboy.sprite.move(gameboard.fireboy.velocity * delTatime);
-	//gameboard.fireboy.delTajump += gameboard.fireboy.velocity.y * delTatime;
+
 	for (int i = 0; i < 15; i++)
 	{
-		handle_player_collision(gameboard.fireboy, gameboard.blocks[i]);
-		handle_player_collision(gameboard.watergirl, gameboard.blocks[i]);
+		handle_player_collision(gameboard.fireboy, gameboard.blocks[i].getGlobalBounds());
+		handle_player_collision(gameboard.watergirl, gameboard.blocks[i].getGlobalBounds());
 	}
+	handle_player_collision(gameboard.fireboy, gameboard.movingTrap.getGlobalBounds());
+	handle_player_collision(gameboard.watergirl, gameboard.movingTrap.getGlobalBounds());
+	
+	for (int i = 0; i < 2; i++)
+	{
+		handle_player_collision(gameboard.fireboy, gameboard.elevator[i].elevator.getGlobalBounds());
+		handle_player_collision(gameboard.watergirl, gameboard.elevator[i].elevator.getGlobalBounds());
+		handle_player_collision(gameboard.fireboy, gameboard.elevator[i].button1.getGlobalBounds());
+		handle_player_collision(gameboard.fireboy, gameboard.elevator[i].button2.getGlobalBounds());
+		handle_player_collision(gameboard.watergirl, gameboard.elevator[i].button1.getGlobalBounds());
+		handle_player_collision(gameboard.watergirl, gameboard.elevator[i].button2.getGlobalBounds());
+
+	}
+
 
 	for (int i = 0; i < 3; i++)
 	{
-		handle_border_collision(gameboard.fireboy, gameboard.borders[i]);
-		handle_border_collision(gameboard.watergirl, gameboard.borders[i]);
+		handle_border_collision(gameboard.fireboy.sprite, gameboard.borders[i].getGlobalBounds());
+		handle_border_collision(gameboard.watergirl.sprite, gameboard.borders[i].getGlobalBounds());
 	}
-	//handle_player_collision(gameboard.fireboy, gameboard.lava);
-	//handle_player_collision(gameboard.fireboy, gameboard.water);
-	//handle_player_collision(gameboard.fireboy, gameboard.goo);
-	//handle_player_collision(gameboard.watergirl, gameboard.lava);
-	//handle_player_collision(gameboard.watergirl, gameboard.water);
-	//handle_player_collision(gameboard.watergirl, gameboard.goo);
+
+	handle_trap_collision();//for adding impulse on the trap
 
 	handle_zone_rules();
 	//handling cool down achieving a 3 second cool down
@@ -60,30 +69,93 @@ void Game::update()
 	//adding flashing effect for cooldown
 	if (gameboard.fireboy.cooldown > 0)
 	{
-		int opacity = static_cast<int>(128 + 127 * std::sin(9*(4- gameboard.fireboy.cooldown)));
+		int opacity = static_cast<int>(170 + 85 * std::sin(9* (.698 - gameboard.fireboy.cooldown)));
 		sf::Color currentColor = gameboard.fireboy.sprite.getColor();
 		currentColor.a = opacity;
 		gameboard.fireboy.sprite.setColor(currentColor);
+		//hearts animation
+		currentColor = gameboard.fireboyHeart.getColor();
+		currentColor.a = static_cast<int>(170 + 85 * std::sin(9 * (.698 - gameboard.fireboy.cooldown))); // full cycle is 6.28
+		gameboard.fireboyHeart.setColor(currentColor);
 	}
 	else
 	{
 		sf::Color currentColor = gameboard.fireboy.sprite.getColor();
 		currentColor.a = 255;
 		gameboard.fireboy.sprite.setColor(currentColor);
+		currentColor = gameboard.fireboyHeart.getColor();
+		currentColor.a = 255;
+		gameboard.fireboyHeart.setColor(currentColor);
+
 	}
 	if (gameboard.watergirl.cooldown > 0)
 	{
-		int opacity = static_cast<int>(128 + 127 * std::sin(9 * (4 - gameboard.fireboy.cooldown)));
+		int opacity = static_cast<int>(170 + 85 * std::sin(9 * (.698 - gameboard.watergirl.cooldown)));
 		sf::Color currentColor = gameboard.watergirl.sprite.getColor();
 		currentColor.a = opacity;
 		gameboard.watergirl.sprite.setColor(currentColor);
+		//hearts animation
+		currentColor = gameboard.watergirlHeart.getColor();
+		currentColor.a = static_cast<int>(170 + 85 * std::sin(9 * (.698 - gameboard.watergirl.cooldown))); // full cycle is 6.28
+		gameboard.watergirlHeart.setColor(currentColor);
 	}
 	else
 	{
 		sf::Color currentColor = gameboard.watergirl.sprite.getColor();
 		currentColor.a = 255;
 		gameboard.watergirl.sprite.setColor(currentColor);
+		currentColor = gameboard.watergirlHeart.getColor();
+		currentColor.a = 255;
+		gameboard.watergirlHeart.setColor(currentColor);
 	}
+
+	handle_animation();
+
+	//------------------------------------------------------------- moving Trap ----------------------------------------
+	const float GRAVITY = 9.8f;  // Acceleration due to gravity
+	const float LENGTH = gameboard.rope.getGlobalBounds().height; // Length of the rope
+	const float ANGLE_DAMPING = 0.99f; // Damping to reduce swinging over time
+
+	gameboard.angularAcceleration = -(GRAVITY / LENGTH) * std::sin(gameboard.angle * 3.14159f / 180.0f); // Convert to radians
+	gameboard.angularVelocity += gameboard.angularAcceleration;
+	gameboard.angularVelocity *= ANGLE_DAMPING; // Apply damping
+	gameboard.angle += gameboard.angularVelocity;
+
+	// Update rope rotation
+	gameboard.rope.setRotation(gameboard.angle + 90);
+	//moving trap platform
+
+	float ropeBottomX = gameboard.rope.getPosition().x + LENGTH * -std::sin(gameboard.angle * 3.14159f / 180.0f);
+	float ropeBottomY = gameboard.rope.getPosition().y + LENGTH * std::cos(gameboard.angle * 3.14159f / 180.0f);
+
+	// Attach platform to the bottom of the rope
+	gameboard.movingTrap.setPosition(ropeBottomX - gameboard.movingTrap.getGlobalBounds().width / 2.0f, ropeBottomY);
+	//------------------------------------------------------------- elevator ----------------------------------------
+	gameboard.elevator[0].update(gameboard.fireboy.sprite.getGlobalBounds(), gameboard.watergirl.sprite.getGlobalBounds());
+	gameboard.elevator[1].update(gameboard.fireboy.sprite.getGlobalBounds(), gameboard.watergirl.sprite.getGlobalBounds());
+
+	//-------------------------------------------------------- VICTORY --------------------------------------------
+	
+	sf::FloatRect FBbounds = gameboard.fireboy.sprite.getGlobalBounds();
+	sf::FloatRect WGbounds = gameboard.watergirl.sprite.getGlobalBounds();
+	sf::FloatRect fDoor = gameboard.fDoor.getGlobalBounds();
+	sf::FloatRect wDoor = gameboard.wDoor.getGlobalBounds();
+
+	if (currentFframe == 17 && currentWframe == 18)
+	{
+
+		//gameboard.fireVictoryT.loadFromFile("assets/images/CharAssets.png");
+		//gameboard.fireboy.sprite.setTexture(gameboard.fireVictoryT);
+		//gameboard.waterVictoryT.loadFromFile("assets/images/CharAssets.png");
+		//gameboard.watergirl.sprite.setTexture(gameboard.fireVictoryT);
+
+		isVictory = 1;
+		std::cout << "VICTORY! ";//debugging
+	}
+
+	//-------------------------------------------------------- DEFEAT --------------------------------------------
+	if (gameboard.fireboy.lifes <= 0 || gameboard.watergirl.lifes <= 0)
+		isDefeat = 1;
 
 }
 
@@ -92,11 +164,28 @@ void Game::render()
 	this->win->clear(sf::Color(0, 0, 0, 255));
 	//draw
 	win->draw(gameboard.bg);
-	win->draw(gameboard.fireboy.sprite);
-	win->draw(gameboard.watergirl.sprite);
+
 	//doors
 	win->draw(gameboard.fDoor);
 	win->draw(gameboard.wDoor);
+
+	//players
+	if(gameboard.fireboy.lifes)
+		win->draw(gameboard.fireboy.sprite);
+	if (gameboard.watergirl.lifes)
+		win->draw(gameboard.watergirl.sprite);
+
+	//traps
+	win->draw(gameboard.rope);
+	win->draw(gameboard.movingTrap);
+
+	//elevators
+	for (int i = 0; i < 2; i++)
+	{
+		gameboard.elevator[i].draw(*win);
+	}
+
+
 	//
 	for (int i = 0; i < 15; i++)
 	{
@@ -142,7 +231,6 @@ bool Game::running()
 void Game::initVars()
 {
 	initGameboard();
-
 }
 
 void Game::initGameboard()
@@ -154,9 +242,8 @@ void Game::initGameboard()
 	}
 	gameboard.fireboy.sprite.setTexture(gameboard.fireboyT);
 	gameboard.fireboy.sprite.setScale(.8, .78);
-	gameboard.fireboy.sprite.setTextureRect(sf::IntRect(467, 277, 55, 100));
+	gameboard.fireboy.sprite.setTextureRect(sf::IntRect(467, 395, 55, 100));
 	gameboard.fireboy.sprite.setPosition(100, 650);
-
 	//watergirl initialization (texture, scale, textureRec, pos)
 
 	if (!gameboard.watergirlT.loadFromFile("assets/sprites/watergirl_sprite.png"))
@@ -177,6 +264,8 @@ void Game::initGameboard()
 	gameboard.fireboyHeart.setTexture(gameboard.fireboyHeartT);
 	gameboard.fireboyHeart.setPosition(1000.f, 20.f);
 	gameboard.fireboyHeart.setScale(2, 2);
+	
+
 
 	if (!gameboard.watergirlHeartT.loadFromFile("assets/images/watergirlHeart.png"))
 	{
@@ -189,18 +278,18 @@ void Game::initGameboard()
 
 	//initialize background
 
-
 	gameboard.bg.setPosition(0, 0);
 
-	if (!gameboard.bgT.loadFromFile("assets/images/bg.png")) {
+	if (!gameboard.bgT.loadFromFile("assets/images/background2.png")) {
 		std::cout << "Error loading background texture!" << std::endl;
 	}
-	gameboard.bg.setTexture(gameboard.bgT);
-	sf::Vector2u windowSize = this->win->getSize(); // Get the window size
-	float scaleX = (float)windowSize.x / gameboard.bgT.getSize().x;
-	float scaleY = (float)windowSize.y / gameboard.bgT.getSize().y;
-	gameboard.bg.setScale(scaleX, scaleY);
-	//initilize borders
+	gameboard.bgT.setRepeated(1);
+	gameboard.bgT.setSmooth(1);
+	gameboard.bg.setSize(sf::Vector2f(1280.f, 900.f));
+	gameboard.bg.setTexture(&gameboard.bgT);
+	gameboard.bg.setTextureRect(sf::IntRect(0, 0, gameboard.bg.getSize().x, gameboard.bg.getSize().y));
+
+	//-------------------------------------------------------- BORDER INIT --------------------------------------------
 
 	gameboard.borders[0].setSize(sf::Vector2f(1280.f, 35.f)); //ceiling
 	gameboard.borders[1].setSize(sf::Vector2f(35.f, 1280.f));// right wall
@@ -212,13 +301,17 @@ void Game::initGameboard()
 	gameboard.groundT.setRepeated(1);
 	gameboard.groundT.loadFromFile("assets/images/bground1.png");
 	gameboard.borders[0].setTexture(&gameboard.groundT); //ceiling
+	gameboard.borders[0].setTextureRect(sf::IntRect(0, 0, gameboard.borders[0].getSize().x, gameboard.borders[0].getSize().y));
 	gameboard.wallsT.loadFromFile("assets/images/bground2.png");
+
 	gameboard.wallsT.setRepeated(1);
 	gameboard.borders[1].setTexture(&gameboard.wallsT);
 	gameboard.borders[1].setTextureRect(sf::IntRect(105, 120, 35, 900)); // right wall
+
 	gameboard.borders[2].setTexture(&gameboard.wallsT);
 	gameboard.borders[2].setTextureRect(sf::IntRect(105, 120, 35, 900)); //left wall
 
+	//-------------------------------------------------------- floors INIT --------------------------------------------
 	//floor 0
 
 	gameboard.blocks[8].setPosition(35, 865);
@@ -228,7 +321,7 @@ void Game::initGameboard()
 	gameboard.blocks[9].setScale(1, 1);
 
 	gameboard.blocks[10].setPosition(500, 880);
-	gameboard.blocks[10].setScale(1, 1);
+	gameboard.blocks[10].setScale(.5, 1);
 
 
 	//floor 1
@@ -239,12 +332,6 @@ void Game::initGameboard()
 
 	gameboard.blocks[1].setPosition(1170, 755);
 	gameboard.blocks[1].setScale(1, 1);
-
-	gameboard.blocks[4].setPosition(35, 610);
-	gameboard.blocks[4].setScale(1, 1);
-
-	gameboard.blocks[5].setPosition(490, 645);
-	gameboard.blocks[5].setScale(1.25, .5);
 
 
 	//floor 2
@@ -289,19 +376,51 @@ void Game::initGameboard()
 	gameboard.gooT.loadFromFile("assets/images/glake1.png");
 	gameboard.goo.setTexture(gameboard.gooT);
 	gameboard.goo.setTextureRect(sf::IntRect(0, 0, 170, 21));
-	gameboard.goo.setPosition(530, 645);
-	gameboard.goo.setScale(.90, .8);
+	gameboard.goo.setPosition(500, 638);
+	gameboard.goo.setScale(2, .9);
+
+	gameboard.blocks[4].setPosition(35, 640);
+	gameboard.blocks[4].setScale(2.2, 1);
+	// --------------------------------------------- moving trap ---------------------------------
+	gameboard.ropeT.loadFromFile("assets/images/rope1.png");
+	gameboard.rope.setTexture(gameboard.ropeT);
+	gameboard.rope.setScale(.7f, .5f);
+	sf::FloatRect ropeBounds = gameboard.rope.getGlobalBounds();
+	gameboard.rope.setOrigin(0, ropeBounds.height/2);
+	gameboard.rope.setPosition(660, 435);
+	gameboard.rope.rotate(90);
+
+	gameboard.movingTrap.setTexture(gameboard.blocksT);
+	gameboard.movingTrap.setScale(.3, .5);
+	// --------------------------------------------- elevator ---------------------------------
+	gameboard.elevatorT.loadFromFile("assets/images/Tb1.png");
+	gameboard.buttonT.loadFromFile("assets/images/buttons_assets.png");
+
+	gameboard.elevator[0] = Elevator(35.f, 610.f, 300.f, 620.f,200.f, 380.f);
+	gameboard.elevator[1] = Elevator(1100.f, 410.f, 800.f, 415.f, 1000.f, 250.f);
+	for (int i = 0; i < 2; i++)
+	{
+		gameboard.elevator[i].elevator.setTexture(gameboard.elevatorT);
+		gameboard.elevator[i].button1.setTexture(gameboard.buttonT);
+		gameboard.elevator[i].button2.setTexture(gameboard.buttonT);
+
+	}
+
+	//gameboard.blocks[12].setPosition(490, 650);
+	//gameboard.blocks[12].setScale(.3f, .6f);
+	//gameboard.blocks[13].setPosition(490, 640);
+	//gameboard.blocks[13].setScale(.13f, .7f);
 
 	//door initialization
 	gameboard.wDoorT.loadFromFile("assets/images/water door1.PNG");
 	gameboard.wDoor.setTexture(gameboard.wDoorT);
-	gameboard.wDoor.setTextureRect(sf::IntRect(3, 1, 110, 125));
+	gameboard.wDoor.setTextureRect(sf::IntRect(3, 1, 112, 120));
 	gameboard.wDoor.setPosition(300, 60);
 	gameboard.wDoor.scale(0.75, 0.75);
 	// Fire door
 	gameboard.fDoorT.loadFromFile("assets/images/fire door1.PNG");
 	gameboard.fDoor.setTexture(gameboard.fDoorT);
-	gameboard.fDoor.setTextureRect(sf::IntRect(3, 1, 110, 125));
+	gameboard.fDoor.setTextureRect(sf::IntRect(3, 1, 112, 120));
 	gameboard.fDoor.setPosition(100, 60);
 	gameboard.fDoor.scale(0.75, 0.75);
 }
@@ -334,11 +453,16 @@ void Game::poll()
 		if (ev.type == sf::Event::KeyPressed)
 		{
 			if (ev.key.code == sf::Keyboard::Right)
+			{
 				gameboard.fireboy.velocity.x = gameboard.fireboy.speed;  //fireboy move right
-			
-
+				gameboard.fireboy.sprite.setTextureRect(sf::IntRect(12, 0, 65, 74));
+			}
 			if (ev.key.code == sf::Keyboard::Left )
+			{
 				gameboard.fireboy.velocity.x = -gameboard.fireboy.speed;  //fireboy move left
+				gameboard.fireboy.sprite.setTextureRect(sf::IntRect(12, 102, 65, 74));
+
+			}
 
 			if (ev.key.code == sf::Keyboard::Up && !gameboard.fireboy.isJumping)
 			{
@@ -346,21 +470,18 @@ void Game::poll()
 
 				gameboard.fireboy.isJumping = true;
 			}
-		}
 
-		if (ev.type == sf::Event::KeyReleased)  //stop movement if key is released
-		{
-			if (ev.key.code == sf::Keyboard::Right || ev.key.code == sf::Keyboard::Left)
-				gameboard.fireboy.velocity.x = 0.0f;    //stop horizontal motion
-		}
-
-		if (ev.type == sf::Event::KeyPressed)
-		{
 			if (ev.key.code == sf::Keyboard::D)
+			{
 				gameboard.watergirl.velocity.x = gameboard.watergirl.speed;  //watergirl move right
+				gameboard.watergirl.sprite.setTextureRect(sf::IntRect(12, 123, 87, 75));
+			}
 
-			if (ev.key.code == sf::Keyboard::A )
+			if (ev.key.code == sf::Keyboard::A)
+			{
 				gameboard.watergirl.velocity.x = -gameboard.watergirl.speed;  //watergirl move left
+				gameboard.watergirl.sprite.setTextureRect(sf::IntRect(12, 22, 87, 75));
+			}
 
 			if (ev.key.code == sf::Keyboard::W && !gameboard.watergirl.isJumping)
 			{
@@ -371,30 +492,25 @@ void Game::poll()
 
 		if (ev.type == sf::Event::KeyReleased)  //stop movement if key is released
 		{
+			if (ev.key.code == sf::Keyboard::Right || ev.key.code == sf::Keyboard::Left)
+			{
+				gameboard.fireboy.velocity.x = 0.0f;
+				gameboard.fireboy.sprite.setTextureRect(sf::IntRect(467, 395, 55, 100));
+			}
 			if (ev.key.code == sf::Keyboard::A || ev.key.code == sf::Keyboard::D)
+			{
 				gameboard.watergirl.velocity.x = 0.0f;    //stop horizontal motion
+				gameboard.watergirl.sprite.setTextureRect(sf::IntRect(340, 472, 56, 86));
+			}
 		}
+
 	}
 }
-//bool Game::is_colliding_from_bottom(const Player& player, const sf::Sprite& block) {
-//	// Get player and block bounds
-//	sf::FloatRect char_bounds = player.sprite.getGlobalBounds();
-//	sf::FloatRect block_bounds = block.getGlobalBounds();
-//
-//	// Check for intersection
-//	if (char_bounds.intersects(block_bounds)) {
-//		// Check if the player is NOT colliding from the bottom
-//		return char_bounds.top + (char_bounds.height * 0.1) < block_bounds.top;
-//	}
-//
-//	// No collision
-//	return false;
-//}
 
-void Game::handle_player_collision(Player& player, const sf::Sprite& block)
+void Game::handle_player_collision(Player& player, const sf::FloatRect& block)
 {
 	sf::FloatRect char_bounds = player.sprite.getGlobalBounds();
-	sf::FloatRect block_bounds = block.getGlobalBounds();
+	sf::FloatRect block_bounds = block;
 
 	if (char_bounds.intersects(block_bounds)) {
 		sf::FloatRect overlap;
@@ -434,6 +550,42 @@ void Game::handle_player_collision(Player& player, const sf::Sprite& block)
 	}
 }
 
+void Game::handle_trap_collision()
+{
+	sf::FloatRect FBbounds = gameboard.fireboy.sprite.getGlobalBounds();
+	sf::FloatRect WGbounds = gameboard.watergirl.sprite.getGlobalBounds();
+	sf::FloatRect trapbounds = gameboard.movingTrap.getGlobalBounds();
+
+	float trapMidpoint = trapbounds.getPosition().x + trapbounds.width / 2;
+
+	if (FBbounds.intersects(trapbounds)) {
+		if (gameboard.fireboy.sprite.getPosition().x < trapMidpoint)
+		{
+			gameboard.angularVelocity -= .3;
+		}
+		else
+		{
+			gameboard.angularVelocity += .3;
+
+		}
+	}
+
+	WGbounds.height += .1;
+	if (WGbounds.intersects(trapbounds) ) {
+		std::cout << "Watergirl intersects trap" << std::endl;  // Debugging line
+		if (gameboard.watergirl.sprite.getPosition().x < trapMidpoint)
+		{
+			gameboard.angularVelocity -= .04;
+		}
+		else
+		{
+			gameboard.angularVelocity += .04;
+
+		}
+	}
+
+}
+
 void Game::handle_zone_rules()
 {
 	sf::FloatRect fireboyBounds = gameboard.fireboy.sprite.getGlobalBounds();
@@ -451,21 +603,105 @@ void Game::handle_zone_rules()
 		gameboard.watergirl.cooldown = 3.f;
 		gameboard.watergirl.lifes--;
 	}
+
+	sf::FloatRect adjustedGooBounds = goo_bounds;
+	adjustedGooBounds.left += 30.f; // Expand the left side by 5px
+	adjustedGooBounds.width -= 60.f; // Expand the width by 10px (5px on each side)
+	if (watergirlBounds.intersects(adjustedGooBounds) && gameboard.watergirl.cooldown < 0) {
+
+		gameboard.watergirl.cooldown = 3.f;
+		gameboard.watergirl.lifes--;
+	}
+	if (fireboyBounds.intersects(adjustedGooBounds) && gameboard.fireboy.cooldown < 0) {
+
+		gameboard.fireboy.cooldown = 3.f;
+		gameboard.fireboy.lifes--;
+	}
 }
 
-
-void Game::handle_border_collision(Player& player, const sf::RectangleShape& borders)
+void Game::handle_border_collision(sf::Sprite& player, const sf::FloatRect& borders_bounds)
 {
-	sf::FloatRect player_bounds = player.sprite.getGlobalBounds();
-	sf::FloatRect borders_bounds = borders.getGlobalBounds();
+	sf::FloatRect player_bounds = player.getGlobalBounds();
 
 	if (player_bounds.intersects(borders_bounds))
 	{
 		float dis = 3.f;
-		(player.velocity.x < 0) ? dis *= 1 : dis *= -1;
-		player.velocity.x = 0;
-		
-		player.sprite.move(dis,0);
+		(player.getPosition().x < borders_bounds.left + borders_bounds.width / 2) ? dis *= -1 : dis *= 1;
+
+		// Stop horizontal velocity and move the player slightly to resolve the collision
+		player.move(dis, 0);
 	}
-	
+}
+
+void Game::handle_animation()
+{
+	float frameWidth, frameHeight;
+	int frameCount = 5;
+	if (animationClock.getElapsedTime().asSeconds() > frameDuration) {
+
+		//Goo animation
+		frameWidth = 163.9;
+		frameHeight = 21;
+		gameboard.goo.setTextureRect(sf::IntRect(currentFrame * frameWidth, 0, frameWidth, frameHeight));
+		//watergirl animation
+		frameWidth = 56;
+		frameHeight = 108;
+		sf::IntRect WGTextRect = gameboard.watergirl.sprite.getTextureRect();
+		if (WGTextRect.top == 472)
+		{
+			gameboard.watergirl.sprite.setTextureRect(sf::IntRect(currentFrame * 80 + 18, WGTextRect.top, WGTextRect.width, WGTextRect.height)); //standing
+
+		}
+		else
+		{
+			gameboard.watergirl.sprite.setTextureRect(sf::IntRect(currentFrame * 96 + 14, WGTextRect.top, WGTextRect.width, WGTextRect.height));//moving right
+		}
+		//fireboy animation
+		frameWidth = 50;
+		frameHeight = 100;
+		sf::IntRect FBTextRect = gameboard.fireboy.sprite.getTextureRect();
+		gameboard.fireboy.sprite.setTextureRect(sf::IntRect(currentFrame * 80 + 12, FBTextRect.top, FBTextRect.width, FBTextRect.height));
+		//----------------------------------------------------------------- DOORS ANIMATION -------------------------------------------------
+		//width 112 height 120 constant 3 slope 158 frames 18 0~17
+
+		sf::FloatRect FBbounds = gameboard.fireboy.sprite.getGlobalBounds();
+		sf::FloatRect WGbounds = gameboard.watergirl.sprite.getGlobalBounds();
+		sf::FloatRect fDoor = gameboard.fDoor.getGlobalBounds();
+		sf::FloatRect wDoor = gameboard.wDoor.getGlobalBounds();
+
+		if (fDoor.intersects(FBbounds) && currentFframe < 17) // go to next frame if last frame is not reached
+		{
+			gameboard.fDoor.setTextureRect(sf::IntRect(3 + currentFframe * 160, 0, 112, 120));
+			currentFframe++;
+		}
+		else if(!fDoor.intersects(FBbounds) && currentFframe > -1)
+		{
+			gameboard.fDoor.setTextureRect(sf::IntRect(3 + currentFframe * 160, 0, 112, 120));
+			currentFframe--;
+		}
+		if (wDoor.intersects(WGbounds) && currentWframe < 18) // go to next frame if last frame is not reached
+		{
+			gameboard.wDoor.setTextureRect(sf::IntRect(3 + currentWframe * 160, 0, 112, 120));
+			currentWframe++;
+		}
+		else if (!wDoor.intersects(WGbounds) && currentWframe > 0)
+		{
+			gameboard.wDoor.setTextureRect(sf::IntRect(3 + currentWframe * 160, 0, 112, 120));
+			currentWframe--;
+		}
+
+		//if (isVictory)
+		//{
+		//	bool fFlag = 0;
+		//	if (currentFrameVictory == 2)
+		//		fFlag = 1;
+		//	gameboard.fireboy.sprite.setTextureRect(sf::IntRect(872 + currentFrameVictory * 76,1678+ fFlag*66, 41, 72));
+		//}
+
+
+		//restart the animation clock
+		animationClock.restart();
+		currentFrame = (currentFrame + 1) % frameCount;  // Loop through frames 0 ~ 4
+	}
+
 }
