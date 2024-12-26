@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-
 //#include<SFML/System.hpp>
 //#include<SFML/Window.hpp>
 //#include<SFML/Network.hpp>
@@ -11,10 +10,14 @@ struct Player
 	sf::Vector2f velocity;
 	bool isJumping=false;
 	bool isGrounded = true;
-	float speed = 210;
-	const float jumpheight = 100;
-	float delTajump = 0;
-	float jumpstrength = 550.f;
+
+
+	float speed = 240;
+	//const float jumpheight = 70;
+	//float delTajump = 0;
+	float jumpstrength = 460.f;
+	int lifes = 3;
+	float cooldown = -1.f;
 
 };
 
@@ -22,9 +25,9 @@ struct GameBoard
 {
 	Player fireboy;
 	Player watergirl;
-	sf::Sprite blocks[15]; // first level has 8 blocks and floor at [8]
-	sf::RectangleShape borders[2];
-	sf::RectangleShape bg; //background
+	sf::Sprite blocks[15]; 
+	sf::RectangleShape borders[3];
+	sf::Sprite bg; //background
 	sf::Sprite lava;
 	sf::Sprite water;
 	sf::Sprite goo;
@@ -35,6 +38,10 @@ struct GameBoard
 	sf::Sprite Timerbackg;
 	bool B_already_collided[4] = { false };
 	bool R_already_collided[4] = { false };
+
+	sf::Sprite fireboyHeart;
+	sf::Sprite watergirlHeart;
+
 
 	//textures
 	sf::Texture fireboyT;
@@ -51,4 +58,7 @@ struct GameBoard
 	sf::Texture Red_gemsT;
 	sf::Texture Blue_gemsT;
 	sf::Texture TimerbackgT;
+	sf::Texture fireboyHeartT;
+	sf::Texture watergirlHeartT;
+
 };

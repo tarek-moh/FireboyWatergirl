@@ -1,14 +1,44 @@
-﻿  rankingList.cpp
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(18,26): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(18,21): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(25,24): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(25,20): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(45,21): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(45,16): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(79,42): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(80,42): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(81,42): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  game.cpp
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(183,40): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(183,36): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(194,43): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(194,38): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(264,31): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(286,31): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(310,32): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(310,27): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(313,37): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(313,32): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(320,30): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(320,25): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(341,37): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(341,31): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(353,36): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(353,31): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(370,34): warning C4305: 'argument': truncation from 'double' to 'float'
+  rankingList.cpp
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(21,26): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(21,21): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(28,24): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(28,20): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(48,21): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(48,16): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(82,42): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(152,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(153,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(83,42): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(84,42): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(85,42): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(153,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(154,21): warning C4018: '<': signed/unsigned mismatch
+  startMenu.cpp
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,76): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,76): warning C4244:         with
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,76): warning C4244:         [
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,76): warning C4244:             T=float
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,76): warning C4244:         ]
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,53): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,53): warning C4244:         with
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,53): warning C4244:         [
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,53): warning C4244:             T=float
+C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,53): warning C4244:         ]
+  Generating Code...
   FireboyWatergirl.vcxproj -> C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\Debug\FireboyWatergirl.exe

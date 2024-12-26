@@ -31,7 +31,6 @@ private:
 	//event polling
 	void poll();
 
-	bool is_colliding_from_bottom(const Player& player, const sf::Sprite& block);
 
 	//Controls
 
@@ -44,15 +43,13 @@ private:
 	string formattedTime (float) const;
 	void update_remainingTime();
 	void store_scores(int,int,float);
+	void handle_zone_rules();
 
 	//UI
 	sf::Text text;
 	sf::Font timer_font;
 	sf::Text timer_txt;
 
-	void initFont();
-	void initText();
-	void renderText();
 
 
 	//window related attributes
