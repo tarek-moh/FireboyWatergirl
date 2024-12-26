@@ -3,3 +3,12 @@
 .vs/
 *.vcxproj.user
 *.suo
+*.obj
+*.exe
+*.ilk
+*.pdb
+*.idb
+*.tlog
+*.log
+Debug/
+Release/
