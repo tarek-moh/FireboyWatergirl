@@ -32,6 +32,7 @@ struct GameBoard
 	sf::Sprite fDoor;
 	sf::Sprite Rgems[4];
 	sf::Sprite Bgems[4];
+	sf::Sprite Timerbackg;
 	bool B_already_collided[4] = { false };
 	bool R_already_collided[4] = { false };
 
@@ -49,4 +50,5 @@ struct GameBoard
 	sf::Texture fDoorT;
 	sf::Texture Red_gemsT;
 	sf::Texture Blue_gemsT;
+	sf::Texture TimerbackgT;
 };

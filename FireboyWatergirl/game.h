@@ -7,7 +7,10 @@
 #include<SFML/Network.hpp>
 #include<vector>
 #include<sstream>
+#include<fstream>
 #include"gameBoard.h"
+using namespace std;
+
 
 class Game
 {
@@ -38,10 +41,14 @@ private:
 	void handle_border_collision(Player&, const sf::RectangleShape&);
 	bool display_Gem(Player&, sf::Sprite&, int,bool[4]);
 	int score(bool[4]);
+	string formattedTime (float) const;
+	void update_remainingTime();
+	void store_scores(int,int,float);
 
 	//UI
-	sf::Font font;
 	sf::Text text;
+	sf::Font timer_font;
+	sf::Text timer_txt;
 
 	void initFont();
 	void initText();
@@ -53,8 +60,8 @@ private:
 	sf::Event ev;
 	sf::VideoMode videoMode;
 	sf::Clock clock;
+	fstream score_file;
 	float delTatime=0.0f;
-	//static bool collided_once[4];
-	
+	float remainingTime=120.f;
 
 };

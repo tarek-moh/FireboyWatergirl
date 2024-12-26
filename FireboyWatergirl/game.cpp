@@ -1,6 +1,7 @@
 #include "game.h"
 #include <iostream>
 #include<cstdlib>
+#include <iomanip>
 
 Game::Game()
 {
@@ -16,9 +17,11 @@ Game::~Game()
 
 void Game::update()
 {
-	delTatime = clock.restart().asSeconds();
+	
 	gameboard.fireboy.isGrounded = false;
 	gameboard.watergirl.isGrounded = false;
+	update_remainingTime();
+	store_scores(score(gameboard.B_already_collided), score(gameboard.R_already_collided),this->remainingTime);
 
 	poll();
 
@@ -46,6 +49,7 @@ void Game::update()
 		handle_border_collision(gameboard.watergirl, gameboard.borders[i]);
 	}
 
+	delTatime = clock.restart().asSeconds(); //update time each frame
 }
 
 void Game::render()
@@ -80,7 +84,6 @@ void Game::render()
 		}
 	}
 
-
 	//blue gems
 	for (int i = 0; i < 4; i++) {
 		if (display_Gem(gameboard.watergirl, gameboard.Bgems[i], i,gameboard.B_already_collided))
@@ -88,7 +91,10 @@ void Game::render()
 			win->draw(gameboard.Bgems[i]);
 		}
 	}
-
+	//timer backgroud
+	win->draw(gameboard.Timerbackg);
+	//timer text
+	win->draw(timer_txt);
 
 	//display
 	this->win->display();
@@ -222,8 +228,7 @@ void Game::initGameboard()
 	gameboard.fDoor.scale(0.75, 0.75);
 
 
-	//Gems
-
+	// Blue Gems
 	gameboard.Blue_gemsT.loadFromFile("assets/images/blue diamond.PNG");
 	for (int i = 0; i < 4; i++)
 	{
@@ -235,7 +240,7 @@ void Game::initGameboard()
 	gameboard.Bgems[2].setPosition(420, 90);
 	gameboard.Bgems[3].setPosition(1200, 790);
 
-
+    //Red Gems
 	gameboard.Red_gemsT.loadFromFile("assets/images/red diamond.PNG");
 	for (int i = 0; i < 4; i++)
 	{
@@ -246,6 +251,20 @@ void Game::initGameboard()
 	gameboard.Rgems[1].setPosition(120, 790);
 	gameboard.Rgems[2].setPosition(220, 90);
 	gameboard.Rgems[3].setPosition(220, 340);
+
+	//Timer text and background setup
+	if (!timer_font.loadFromFile("assets/fonts/Roboto-Regular.ttf")) {
+		cout << "Error loading font!";
+    }
+	timer_txt.setFont(timer_font);
+	timer_txt.setCharacterSize(40);
+	timer_txt.setFillColor(sf::Color::White);
+	timer_txt.setPosition(600, 0);
+	gameboard.TimerbackgT.loadFromFile("assets/images/timer  background.PNG");
+	gameboard.Timerbackg.setTexture(gameboard.TimerbackgT);
+	gameboard.Timerbackg.setScale(1,0.8);
+	gameboard.Timerbackg.setPosition(523, 0);
+
 
 }
 
@@ -317,6 +336,7 @@ void Game::poll()
 			if (ev.key.code == sf::Keyboard::A || ev.key.code == sf::Keyboard::D)
 				gameboard.watergirl.velocity.x = 0.0f;    //stop horizontal motion
 		}
+
 	}
 }
 bool Game::is_colliding_from_bottom(const Player& player, const sf::Sprite& block) {
@@ -432,6 +452,41 @@ int Game::score( bool already_collided[4])
 	}
 	return score;
 }
+
+// displays time as 00:00
+string Game::formattedTime(float remainingTime) const{
+	int seconds = static_cast<int>(remainingTime)%60;
+	int minutes = static_cast<int>(remainingTime)/60;
+
+	stringstream MMSS;
+	MMSS << setw(2) << setfill('0') << minutes << ":" << setw(2) << setfill('0') << seconds;
+	return MMSS.str();
+}
+
+// updates the timer on screen
+void Game::update_remainingTime()
+{
+	this->remainingTime -= delTatime;    //decrement remaining time each frame
+	if (this->remainingTime < 0) {   
+		this->remainingTime = 0;
+	}
+	timer_txt.setString(formattedTime(this->remainingTime));  //update the text to show current time 
+}
+
+/*use the score function as a parameter twice and the remaining time 
+ and use this function "store_scores" in the function of victory (needs to be implemented!!) */
+
+
+// stores in my score file txt
+void Game::store_scores(int watergirl_score, int fireboy_score, float  remainingTime)  
+{
+	score_file.open("scores sheet.txt", ios::app);
+	if (score_file.is_open()) {  
+			score_file << watergirl_score << setw(10) << fireboy_score << setw(10) << remainingTime<<endl;
+		score_file.close();
+	}
+}
+
 
 
 
