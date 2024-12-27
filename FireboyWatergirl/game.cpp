@@ -20,11 +20,18 @@ void Game::update()
 	
 	gameboard.fireboy.isGrounded = false;
 	gameboard.watergirl.isGrounded = false;
-	update_remainingTime();
-	store_scores(score(gameboard.B_already_collided), score(gameboard.R_already_collided),this->remainingTime);
+
+	update_remainingTime();// update remaining time each frame
+	if (isVictory) {
+		victorytxt[0][1].setString(to_string(score(gameboard.B_already_collided)));
+		victorytxt[1][1].setString(to_string(score(gameboard.R_already_collided)));
+	}
+	if (isVictory&&!stored) {   //store scores in case of winning 
+		store_scores(score(gameboard.B_already_collided), score(gameboard.R_already_collided), this->remainingTime);
+		stored = true;
+	}
 
 	poll();
-
 
 	// Update players
 	if (!gameboard.fireboy.isGrounded) {
@@ -159,10 +166,11 @@ void Game::update()
 	//-------------------------------------------------------- DEFEAT --------------------------------------------
 	if (gameboard.fireboy.lifes <= 0 || gameboard.watergirl.lifes <= 0 || fabs(remainingTime - 0) < 1e-9) {
 		isDefeat = 1;
-	
 		cout << "defeated";
 	}
-	delTatime = clock.restart().asSeconds(); //update time each frame
+
+	//update time each frame
+	delTatime = clock.restart().asSeconds(); 
 }
 
 void Game::render()
@@ -174,6 +182,7 @@ void Game::render()
 	//doors
 	win->draw(gameboard.fDoor);
 	win->draw(gameboard.wDoor);
+
 
 	//players
 	if(gameboard.fireboy.lifes)
@@ -217,7 +226,6 @@ void Game::render()
 			win->draw(gameboard.Rgems[i]);
 		}
 	}
-
 	//blue gems
 	for (int i = 0; i < 4; i++) {
 		if (display_Gem(gameboard.watergirl, gameboard.Bgems[i], i,gameboard.B_already_collided))
@@ -225,6 +233,7 @@ void Game::render()
 			win->draw(gameboard.Bgems[i]);
 		}
 	}
+
 	//timer backgroud
 	win->draw(gameboard.Timerbackg);
 	//timer text
@@ -246,6 +255,21 @@ void Game::render()
 	}
 	gameboard.watergirlHeart.setPosition(initialPos.x, initialPos.y);
 
+	// --------------------------------------------------------VICTORY------------------------------------
+	if (isVictory)
+	{
+		win->draw(popupScreen);  //draw screen
+		win->draw(gamecondition); //draw "Winner"
+		win->draw(rg);
+		win->draw(bg);
+
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				win->draw(victorytxt[i][j]);
+			}
+		}
+	}
+
 
 	//display
 	this->win->display();
@@ -264,6 +288,7 @@ void Game::initVars()
 
 void Game::initGameboard()
 {
+
 	//fireboy initialization (texture, scale, textureRec, pos)
 	if (!gameboard.fireboyT.loadFromFile("assets/sprites/fireboy_sprite.png"))
 	{
@@ -461,10 +486,10 @@ void Game::initGameboard()
 		gameboard.Bgems[i].setTexture(gameboard.Blue_gemsT);
 		gameboard.Bgems[i].setScale(0.85, 0.85);
 	}
-	gameboard.Bgems[0].setPosition(1010, 750);
+	gameboard.Bgems[0].setPosition(600, 705);
 	gameboard.Bgems[1].setPosition(200, 790);
-	gameboard.Bgems[2].setPosition(420, 90);
-	gameboard.Bgems[3].setPosition(1200, 790);
+	gameboard.Bgems[2].setPosition(910, 520);
+	gameboard.Bgems[3].setPosition(420, 90);
 
     //Red Gems
 	gameboard.Red_gemsT.loadFromFile("assets/images/red diamond.PNG");
@@ -473,10 +498,10 @@ void Game::initGameboard()
 		gameboard.Rgems[i].setTexture(gameboard.Red_gemsT);
 		gameboard.Rgems[i].setScale(0.9, 0.9);
 	}
-	gameboard.Rgems[0].setPosition(600, 750);
+	gameboard.Rgems[0].setPosition(600, 805);
 	gameboard.Rgems[1].setPosition(120, 790);
 	gameboard.Rgems[2].setPosition(220, 90);
-	gameboard.Rgems[3].setPosition(220, 340);
+	gameboard.Rgems[3].setPosition(360, 340);
 
 	//Timer text and background setup
 	if (!timer_font.loadFromFile("assets/fonts/Roboto-Regular.ttf")) {
@@ -486,11 +511,65 @@ void Game::initGameboard()
 	timer_txt.setCharacterSize(40);
 	timer_txt.setFillColor(sf::Color::White);
 	timer_txt.setPosition(600, 0);
+
 	gameboard.TimerbackgT.loadFromFile("assets/images/timer  background.PNG");
 	gameboard.Timerbackg.setTexture(gameboard.TimerbackgT);
 	gameboard.Timerbackg.setScale(1,0.8);
 	gameboard.Timerbackg.setPosition(523, 0);
 
+
+	//-------------------------------------------VICTORY--------------------------------------
+
+		
+		popupScreen.setFillColor(sf::Color(0, 0, 0, 140));
+		popupScreen.setSize(sf::Vector2f(1000, 700));
+		popupScreen.setPosition(140.f, 100.f);
+
+		//"Winner" text
+		gamecondition.setFont(timer_font);
+		gamecondition.setFillColor(sf::Color::White);
+		gamecondition.setPosition(sf::Vector2f(560, 100)); //set the pos right
+		gamecondition.setString("Winner");
+		gamecondition.setCharacterSize(60);
+
+		rgT.loadFromFile("assets/images/red diamond.PNG");
+		rg.setTexture(rgT);
+		rg.setScale(1.3, 1.3);
+		rg.setPosition(300, 310);
+
+		bgT.loadFromFile("assets/images/blue diamond.PNG");
+		bg.setTexture(bgT);
+		bg.setScale(1.3, 1.3);
+		bg.setPosition(300, 410);
+
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				victorytxt[i][j].setFont(timer_font);
+			}
+			victorytxt[0][0].setPosition(400, 310);
+			victorytxt[1][0].setPosition(400, 412); 
+
+			victorytxt[i][0].setString("X");
+			victorytxt[i][0].setCharacterSize(50);
+
+
+			victorytxt[0][1].setPosition(500, 415);
+			victorytxt[1][1].setPosition(500, 315);
+			victorytxt[i][1].setCharacterSize(40);
+			victorytxt[i][1].setCharacterSize(40);
+
+			victorytxt[0][2].setString("Red Gems");
+			victorytxt[1][2].setString("Blue Gems");
+			victorytxt[0][2].setPosition(580, 320);
+			victorytxt[1][2].setPosition(580, 420);
+
+			
+			victorytxt[2][0].setPosition(280, 500);
+			victorytxt[2][1].setString("Elapsed Time");
+			victorytxt[2][1].setPosition(480, 508);
+
+		
+		}
 
 }
 
@@ -821,15 +900,21 @@ string Game::formattedTime(float remainingTime) const{
 // updates the timer on screen
 void Game::update_remainingTime()
 {
-	this->remainingTime -= delTatime;    //decrement remaining time each frame
-	if (this->remainingTime < 0) {   
-		this->remainingTime = 0;
+	if (isVictory|| isDefeat) {
+		timer_txt.setString(formattedTime(this->remainingTime));
+		victorytxt[2][0].setString(formattedTime(ceil(120.f - remainingTime)));
 	}
-	timer_txt.setString(formattedTime(this->remainingTime));  //update the text to show current time 
+	else {
+
+		this->remainingTime -= delTatime;    //decrement remaining time each frame
+		if (this->remainingTime < 0) {
+			this->remainingTime = 0;
+		}
+		timer_txt.setString(formattedTime(this->remainingTime));  //update the text to show current time 
+	}
 }
 
-/*use the score function as a parameter twice and the remaining time 
- and use this function "store_scores" in the function of victory (needs to be implemented!!) */
+
 
 
 // stores in my score file txt

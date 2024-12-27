@@ -46,7 +46,7 @@ void RankingList::initVars()
 	}
 	list.setTexture(listT);
 	list.setScale(0.93,1.18);
-	//list.setPosition(10, 80);
+	
     
 	// headlines setup
 	for (int i = 0; i < 4; i++) {
@@ -64,27 +64,28 @@ void RankingList::initVars()
 	headers_txt[3].setString("Elapsed Time");
 
 	//rank details
-	for (int i = 0; i < 10; i++) {
+	//while (vec.size() <= 10) {
+		for (int i = 0; i < vec.size(); i++) {
 
-		for (int j = 0; j < 4; j++){
-			details_txt[i][j].setFont(font);
-			details_txt[i][j].setFillColor(sf::Color::Yellow);
-			details_txt[i][j].setCharacterSize(25);
+			for (int j = 0; j < 4; j++) {
+				details_txt[i][j].setFont(font);
+				details_txt[i][j].setFillColor(sf::Color::Yellow);
+				details_txt[i][j].setCharacterSize(25);
 
+			}
+
+			details_txt[i][0].setString(to_string(i + 1));
+			details_txt[i][1].setString(to_string(get<0>(this->vec[i])));
+			details_txt[i][2].setString(to_string(get<1>(this->vec[i])));
+			details_txt[i][3].setString(formattedTime(120 - get<2>(this->vec[i])));
+
+			// setting texts pos
+			details_txt[i][0].setPosition(100, 200 + 40 * i);
+			details_txt[i][1].setPosition(300, 200 + 40 * i);
+			details_txt[i][2].setPosition(540, 200 + 40 * i);
+			details_txt[i][3].setPosition(760, 200 + 40 * i);
 		}
-
-		details_txt[i][0].setString(to_string(i+1));
-		details_txt[i][1].setString(to_string(get<0>(this->vec[i])));
-		details_txt[i][2].setString(to_string(get<1>(this->vec[i])));
-		details_txt[i][3].setString(formattedTime(120-get<2>(this->vec[i])));
-
-		// setting texts pos
-		details_txt[i][0].setPosition(100, 200 + 40 * i);
-		details_txt[i][1].setPosition(300, 200 + 40 * i);
-		details_txt[i][2].setPosition(540, 200 + 40 * i);
-		details_txt[i][3].setPosition(760, 200 + 40 * i);
-	}
-
+	//}
 }
 
 void RankingList::initWin() {
@@ -109,7 +110,7 @@ void RankingList::render()
 		this->win->draw(headers_txt[i]);
 	}
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < vec.size(); i++) {
 		for (int j = 0; j < 4; j++) {
 			this->win->draw(details_txt[i][j]);
 		}
@@ -180,10 +181,10 @@ void RankingList::read_file()
 }
 
 // displays time as 00:00
-string RankingList::formattedTime(float) const
+string RankingList::formattedTime(float time) const
 {
-	int seconds = static_cast<int>(remainingTime) % 60;
-	int minutes = static_cast<int>(remainingTime) / 60;
+	int seconds = static_cast<int>(time) % 60;
+	int minutes = static_cast<int>(time) / 60;
 
 	stringstream MMSS;
 	MMSS << setw(2) << setfill('0') << minutes << ":" << setw(2) << setfill('0') << seconds;

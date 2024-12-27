@@ -57,7 +57,7 @@ private:
 	sf::Text text;
 	sf::Font timer_font;
 	sf::Text timer_txt;
-
+ 
 
 
 	//window related attributes
@@ -78,5 +78,14 @@ private:
 	float delTatime=0.0f;
 	float remainingTime=120.f;
 	float collisionTime=0.0f;
+	bool stored = false;
+	sf::RectangleShape popupScreen;
+	sf::Text gamecondition;
+	sf::Texture rgT;
+	sf::Texture bgT;
+	sf::Sprite rg;
+	sf::Sprite bg;
+	sf::Text victorytxt[3][3];
+
 
 };
