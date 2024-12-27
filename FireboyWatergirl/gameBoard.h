@@ -8,10 +8,13 @@ struct Player
 	sf::Vector2f velocity;
 	bool isJumping=false;
 	bool isGrounded = true;
+
+
 	float speed = 240;
 	float jumpstrength = 460.f;
 	int lifes = 3;
 	float cooldown = -1.f;
+
 };
 
 class Elevator // takes positions of elevator and buttons as a parameter
@@ -144,6 +147,12 @@ struct GameBoard
 	// ---------------------------------------------doors--------------------------------
 	sf::Sprite wDoor;
 	sf::Sprite fDoor;
+	sf::Sprite Rgems[4];
+	sf::Sprite Bgems[4];
+	sf::Sprite Timerbackg;
+	bool B_already_collided[4] = { false };
+	bool R_already_collided[4] = { false };
+
 
 	// ---------------------------------------------Characters---------------------------
 	Player fireboy;
@@ -164,6 +173,9 @@ struct GameBoard
 	sf::Texture gooT;
 	sf::Texture wDoorT;
 	sf::Texture fDoorT;
+	sf::Texture Red_gemsT;
+	sf::Texture Blue_gemsT;
+	sf::Texture TimerbackgT;
 	sf::Texture fireboyHeartT;
 	sf::Texture watergirlHeartT;
 	sf::Texture ropeT;
