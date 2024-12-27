@@ -52,7 +52,6 @@ private:
 	void defeat();
 	bool isVictory = 0;
 	bool isDefeat = 0;
-	sf::RectangleShape popupScreen;
 
 	//UI
 	sf::Text text;
@@ -61,6 +60,7 @@ private:
 	sf::Text defeatText;
 	sf::Text menuText;
 	sf::RectangleShape Mainmenu;
+	sf::RectangleShape popupScreen;
 
 
 	//window related attributes
@@ -81,5 +81,13 @@ private:
 	float delTatime=0.0f;
 	float remainingTime=120.f;
 	float collisionTime=0.0f;
+	bool stored = false;
+	sf::Text gamecondition;
+	sf::Texture rgT;
+	sf::Texture bgT;
+	sf::Sprite rg;
+	sf::Sprite bg;
+	sf::Text victorytxt[3][3];
+
 
 };
