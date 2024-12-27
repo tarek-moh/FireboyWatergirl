@@ -52,12 +52,15 @@ private:
 	void defeat();
 	bool isVictory = 0;
 	bool isDefeat = 0;
+	sf::RectangleShape popupScreen;
 
 	//UI
 	sf::Text text;
 	sf::Font timer_font;
 	sf::Text timer_txt;
-
+	sf::Text defeatText;
+	sf::Text menuText;
+	sf::RectangleShape Mainmenu;
 
 
 	//window related attributes

@@ -176,9 +176,9 @@ void Game::render()
 	win->draw(gameboard.wDoor);
 
 	//players
-	if(gameboard.fireboy.lifes)
+	if(gameboard.fireboy.lifes > 0)
 		win->draw(gameboard.fireboy.sprite);
-	if (gameboard.watergirl.lifes)
+	if (gameboard.watergirl.lifes > 0)
 		win->draw(gameboard.watergirl.sprite);
 
 	//traps
@@ -246,7 +246,19 @@ void Game::render()
 	}
 	gameboard.watergirlHeart.setPosition(initialPos.x, initialPos.y);
 
+	// --------------------------------------------------------gamover------------------------------------
+	if (isVictory)
+	{
+		win->draw(popupScreen);
 
+	}
+	if (isDefeat)
+	{
+		win->draw(popupScreen);
+		win->draw(Mainmenu);
+		win->draw(menuText);
+		win->draw(defeatText);
+	}
 	//display
 	this->win->display();
 
@@ -293,7 +305,7 @@ void Game::initGameboard()
 	gameboard.fireboyHeart.setTexture(gameboard.fireboyHeartT);
 	gameboard.fireboyHeart.setPosition(1000.f, 20.f);
 	gameboard.fireboyHeart.setScale(2, 2);
-	
+
 
 
 	if (!gameboard.watergirlHeartT.loadFromFile("assets/images/watergirlHeart.png"))
@@ -344,7 +356,7 @@ void Game::initGameboard()
 	//floor 0
 
 	gameboard.blocks[8].setPosition(35, 865);
-	gameboard.blocks[8].setScale((500.f-35.f)/485.f, 1);
+	gameboard.blocks[8].setScale((500.f - 35.f) / 485.f, 1);
 
 	gameboard.blocks[9].setPosition(743, 865);
 	gameboard.blocks[9].setScale(1, 1);
@@ -375,7 +387,7 @@ void Game::initGameboard()
 	gameboard.blocks[6].setScale(2.2, 0.75);
 
 	//final floor
-	gameboard.blocks[7].setPosition(35, 150); 
+	gameboard.blocks[7].setPosition(35, 150);
 	gameboard.blocks[7].setScale(1, 1);
 
 
@@ -415,7 +427,7 @@ void Game::initGameboard()
 	gameboard.rope.setTexture(gameboard.ropeT);
 	gameboard.rope.setScale(.7f, .5f);
 	sf::FloatRect ropeBounds = gameboard.rope.getGlobalBounds();
-	gameboard.rope.setOrigin(0, ropeBounds.height/2);
+	gameboard.rope.setOrigin(0, ropeBounds.height / 2);
 	gameboard.rope.setPosition(660, 435);
 	gameboard.rope.rotate(90);
 
@@ -425,7 +437,7 @@ void Game::initGameboard()
 	gameboard.elevatorT.loadFromFile("assets/images/Tb1.png");
 	gameboard.buttonT.loadFromFile("assets/images/buttons_assets.png");
 
-	gameboard.elevator[0] = Elevator(35.f, 610.f, 300.f, 620.f,200.f, 380.f);
+	gameboard.elevator[0] = Elevator(35.f, 610.f, 300.f, 620.f, 200.f, 380.f);
 	gameboard.elevator[1] = Elevator(1100.f, 410.f, 800.f, 415.f, 1000.f, 250.f);
 	for (int i = 0; i < 2; i++)
 	{
@@ -444,13 +456,15 @@ void Game::initGameboard()
 	gameboard.wDoorT.loadFromFile("assets/images/water door1.PNG");
 	gameboard.wDoor.setTexture(gameboard.wDoorT);
 	gameboard.wDoor.setTextureRect(sf::IntRect(3, 1, 112, 120));
-	gameboard.wDoor.setPosition(300, 60);
+	//gameboard.wDoor.setPosition(300, 60);
+	gameboard.wDoor.setPosition(300, 700);
 	gameboard.wDoor.scale(0.75, 0.75);
 	// Fire door
 	gameboard.fDoorT.loadFromFile("assets/images/fire door1.PNG");
 	gameboard.fDoor.setTexture(gameboard.fDoorT);
 	gameboard.fDoor.setTextureRect(sf::IntRect(3, 1, 112, 120));
-	gameboard.fDoor.setPosition(100, 60);
+	//gameboard.fDoor.setPosition(100, 60);
+	gameboard.fDoor.setPosition(100, 700);
 	gameboard.fDoor.scale(0.75, 0.75);
 
 
@@ -466,7 +480,7 @@ void Game::initGameboard()
 	gameboard.Bgems[2].setPosition(420, 90);
 	gameboard.Bgems[3].setPosition(1200, 790);
 
-    //Red Gems
+	//Red Gems
 	gameboard.Red_gemsT.loadFromFile("assets/images/red diamond.PNG");
 	for (int i = 0; i < 4; i++)
 	{
@@ -481,16 +495,44 @@ void Game::initGameboard()
 	//Timer text and background setup
 	if (!timer_font.loadFromFile("assets/fonts/Roboto-Regular.ttf")) {
 		cout << "Error loading font!";
-    }
+	}
 	timer_txt.setFont(timer_font);
 	timer_txt.setCharacterSize(40);
 	timer_txt.setFillColor(sf::Color::White);
 	timer_txt.setPosition(600, 0);
 	gameboard.TimerbackgT.loadFromFile("assets/images/timer  background.PNG");
 	gameboard.Timerbackg.setTexture(gameboard.TimerbackgT);
-	gameboard.Timerbackg.setScale(1,0.8);
+	gameboard.Timerbackg.setScale(1, 0.8);
 	gameboard.Timerbackg.setPosition(523, 0);
+	// --------------------------------------------- game over ------------------------------------
+	popupScreen.setFillColor(sf::Color(0, 0, 0, 140));
+	popupScreen.setSize(sf::Vector2f(1000, 700));
+	popupScreen.setPosition(140.f, 100.f);
 
+	defeatText.setFont(timer_font);
+	defeatText.setString("Game over");
+	defeatText.setCharacterSize(70);
+	defeatText.setFillColor(sf::Color::White);
+	defeatText.setStyle(sf::Text::Bold);
+	defeatText.setPosition(450, 105);
+	defeatText.setOutlineColor(sf::Color::Black);
+	defeatText.setOutlineThickness(8.f);
+
+	//for main menu button
+	menuText.setFont(timer_font);
+	menuText.setString("Main menu");
+	menuText.setCharacterSize(30);
+	menuText.setFillColor(sf::Color(0,0,0,190));
+	menuText.setStyle(sf::Text::Bold);
+	//menuText.setOutlineColor();
+	//menuText.setOutlineThickness(1.f);
+	menuText.setPosition(565, 545);
+
+	Mainmenu.setSize(sf::Vector2f(200.f, 50.f));
+	Mainmenu.setFillColor(sf::Color(255,255,255,190));
+	Mainmenu.setOutlineColor(sf::Color::Black);
+	Mainmenu.setOutlineThickness(1.f);
+	Mainmenu.setPosition(540, 540);
 
 }
 
@@ -507,72 +549,96 @@ void Game::initWin()
 void Game::poll()
 {
 	while (this->win->pollEvent(this->ev)) {
-		
-		switch (this->ev.type)
+		if(!isVictory && !isDefeat)
 		{
-		case sf::Event::Closed:
-			this->win->close();
-			break;
-		case sf::Event::KeyPressed:
-			if (ev.key.code == sf::Keyboard::Escape)
+			switch (this->ev.type)
+			{
+			case sf::Event::Closed:
 				this->win->close();
-			break;
+				break;
+			case sf::Event::KeyPressed:
+				if (ev.key.code == sf::Keyboard::Escape)
+					this->win->close();
+				break;
 
+			}
+			if (ev.type == sf::Event::KeyPressed)
+			{
+				if (ev.key.code == sf::Keyboard::Right)
+				{
+					gameboard.fireboy.velocity.x = gameboard.fireboy.speed;  //fireboy move right
+					gameboard.fireboy.sprite.setTextureRect(sf::IntRect(12, 0, 65, 74));
+				}
+				if (ev.key.code == sf::Keyboard::Left)
+				{
+					gameboard.fireboy.velocity.x = -gameboard.fireboy.speed;  //fireboy move left
+					gameboard.fireboy.sprite.setTextureRect(sf::IntRect(12, 102, 65, 74));
+
+				}
+
+				if (ev.key.code == sf::Keyboard::Up && !gameboard.fireboy.isJumping)
+				{
+					gameboard.fireboy.velocity.y = -gameboard.fireboy.jumpstrength;
+
+					gameboard.fireboy.isJumping = true;
+				}
+
+				if (ev.key.code == sf::Keyboard::D)
+				{
+					gameboard.watergirl.velocity.x = gameboard.watergirl.speed;  //watergirl move right
+					gameboard.watergirl.sprite.setTextureRect(sf::IntRect(12, 123, 87, 75));
+				}
+
+				if (ev.key.code == sf::Keyboard::A)
+				{
+					gameboard.watergirl.velocity.x = -gameboard.watergirl.speed;  //watergirl move left
+					gameboard.watergirl.sprite.setTextureRect(sf::IntRect(12, 22, 87, 75));
+				}
+
+				if (ev.key.code == sf::Keyboard::W && !gameboard.watergirl.isJumping)
+				{
+					gameboard.watergirl.velocity.y = -gameboard.watergirl.jumpstrength;
+					gameboard.watergirl.isJumping = true;
+				}
+			}
+
+			if (ev.type == sf::Event::KeyReleased)  //stop movement if key is released
+			{
+				if (ev.key.code == sf::Keyboard::Right || ev.key.code == sf::Keyboard::Left)
+				{
+					gameboard.fireboy.velocity.x = 0.0f;
+					gameboard.fireboy.sprite.setTextureRect(sf::IntRect(467, 395, 55, 100));
+				}
+				if (ev.key.code == sf::Keyboard::A || ev.key.code == sf::Keyboard::D)
+				{
+					gameboard.watergirl.velocity.x = 0.0f;    //stop horizontal motion
+					gameboard.watergirl.sprite.setTextureRect(sf::IntRect(340, 472, 56, 86));
+				}
+			}
 		}
-		if (ev.type == sf::Event::KeyPressed)
+
+		//-------------------------------------------gameover-----------------------------------
+		if (isDefeat)
 		{
-			if (ev.key.code == sf::Keyboard::Right)
-			{
-				gameboard.fireboy.velocity.x = gameboard.fireboy.speed;  //fireboy move right
-				gameboard.fireboy.sprite.setTextureRect(sf::IntRect(12, 0, 65, 74));
-			}
-			if (ev.key.code == sf::Keyboard::Left )
-			{
-				gameboard.fireboy.velocity.x = -gameboard.fireboy.speed;  //fireboy move left
-				gameboard.fireboy.sprite.setTextureRect(sf::IntRect(12, 102, 65, 74));
+			switch (ev.type) {
+			case sf::Event::Closed:
+				this->win->close();
+				break;
 
-			}
+			case sf::Event::MouseButtonPressed:
+				if (ev.mouseButton.button == sf::Mouse::Left) {
+					sf::Vector2i mousePos = sf::Mouse::getPosition(*this->win);
 
-			if (ev.key.code == sf::Keyboard::Up && !gameboard.fireboy.isJumping)
-			{
-				gameboard.fireboy.velocity.y = -gameboard.fireboy.jumpstrength;
+					if (Mainmenu.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+						this->win->close();
+					}
+				}
+				break;
 
-				gameboard.fireboy.isJumping = true;
-			}
-
-			if (ev.key.code == sf::Keyboard::D)
-			{
-				gameboard.watergirl.velocity.x = gameboard.watergirl.speed;  //watergirl move right
-				gameboard.watergirl.sprite.setTextureRect(sf::IntRect(12, 123, 87, 75));
-			}
-
-			if (ev.key.code == sf::Keyboard::A)
-			{
-				gameboard.watergirl.velocity.x = -gameboard.watergirl.speed;  //watergirl move left
-				gameboard.watergirl.sprite.setTextureRect(sf::IntRect(12, 22, 87, 75));
-			}
-
-			if (ev.key.code == sf::Keyboard::W && !gameboard.watergirl.isJumping)
-			{
-				gameboard.watergirl.velocity.y = -gameboard.watergirl.jumpstrength;
-				gameboard.watergirl.isJumping = true;
+			default:
+				break;
 			}
 		}
-
-		if (ev.type == sf::Event::KeyReleased)  //stop movement if key is released
-		{
-			if (ev.key.code == sf::Keyboard::Right || ev.key.code == sf::Keyboard::Left)
-			{
-				gameboard.fireboy.velocity.x = 0.0f;
-				gameboard.fireboy.sprite.setTextureRect(sf::IntRect(467, 395, 55, 100));
-			}
-			if (ev.key.code == sf::Keyboard::A || ev.key.code == sf::Keyboard::D)
-			{
-				gameboard.watergirl.velocity.x = 0.0f;    //stop horizontal motion
-				gameboard.watergirl.sprite.setTextureRect(sf::IntRect(340, 472, 56, 86));
-			}
-		}
-
 	}
 }
 

@@ -1,86 +1,107 @@
-<<<<<<< HEAD
-﻿  rankingList.cpp
+﻿  FireboyWatergirl.cpp
+  game.cpp
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(285,40): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(285,36): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(295,43): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(295,38): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,96): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,96): warning C4244:         with
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,96): warning C4244:         [
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,96): warning C4244:             T=float
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,96): warning C4244:         ]
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,96): warning C4244:         and
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,96): warning C4244:         [
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,96): warning C4244:             T=int
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,96): warning C4244:         ]
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,70): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,70): warning C4244:         with
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,70): warning C4244:         [
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,70): warning C4244:             T=float
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,70): warning C4244:         ]
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,70): warning C4244:         and
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,70): warning C4244:         [
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,70): warning C4244:             T=int
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(331,70): warning C4244:         ]
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,120): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,120): warning C4244:         with
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,120): warning C4244:         [
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,120): warning C4244:             T=float
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,120): warning C4244:         ]
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,120): warning C4244:         and
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,120): warning C4244:         [
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,120): warning C4244:             T=int
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,120): warning C4244:         ]
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,86): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,86): warning C4244:         with
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,86): warning C4244:         [
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,86): warning C4244:             T=float
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,86): warning C4244:         ]
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,86): warning C4244:         and
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,86): warning C4244:         [
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,86): warning C4244:             T=int
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(345,86): warning C4244:         ]
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(371,31): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(387,31): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(411,32): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(411,27): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(414,37): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(414,32): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(421,28): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(424,31): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(435,32): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(476,37): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(476,31): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(488,36): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(488,31): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(505,35): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(700,33): warning C4305: '-=': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(704,33): warning C4305: '+=': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(709,21): warning C4305: '+=': truncation from 'double' to 'T'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(709,21): warning C4305:         with
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(709,21): warning C4305:         [
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(709,21): warning C4305:             T=float
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(709,21): warning C4305:         ]
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(714,33): warning C4305: '-=': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(718,33): warning C4305: '+=': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(779,16): warning C4305: '=': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(781,86): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(781,86): warning C4244:         with
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(781,86): warning C4244:         [
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(781,86): warning C4244:             T=int
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(781,86): warning C4244:         ]
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(781,74): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(781,74): warning C4244:         with
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(781,74): warning C4244:         [
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(781,74): warning C4244:             T=int
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(781,74): warning C4244:         ]
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(781,57): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(781,57): warning C4244:         with
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(781,57): warning C4244:         [
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(781,57): warning C4244:             T=int
+D:\programming\FireboyWatergirl\FireboyWatergirl\game.cpp(781,57): warning C4244:         ]
+  rankingList.cpp
+D:\programming\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(21,26): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(21,21): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(28,24): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(28,20): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(48,21): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(48,16): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\programming\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(82,42): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\programming\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(83,42): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\programming\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(84,42): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\programming\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(85,42): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\programming\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(153,20): warning C4018: '<': signed/unsigned mismatch
+D:\programming\FireboyWatergirl\FireboyWatergirl\rankingList.cpp(154,21): warning C4018: '<': signed/unsigned mismatch
+  startMenu.cpp
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,76): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,76): warning C4244:         with
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,76): warning C4244:         [
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,76): warning C4244:             T=float
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,76): warning C4244:         ]
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,53): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,53): warning C4244:         with
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,53): warning C4244:         [
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,53): warning C4244:             T=float
+D:\programming\FireboyWatergirl\FireboyWatergirl\startMenu.cpp(23,53): warning C4244:         ]
+  Generating Code...
   FireboyWatergirl.vcxproj -> D:\programming\FireboyWatergirl\Debug\FireboyWatergirl.exe
-=======
-﻿  game.cpp
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(273,40): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(273,36): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(283,43): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(283,38): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,96): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,96): warning C4244:         with
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,96): warning C4244:         [
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,96): warning C4244:             T=float
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,96): warning C4244:         ]
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,96): warning C4244:         and
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,96): warning C4244:         [
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,96): warning C4244:             T=int
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,96): warning C4244:         ]
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,70): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,70): warning C4244:         with
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,70): warning C4244:         [
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,70): warning C4244:             T=float
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,70): warning C4244:         ]
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,70): warning C4244:         and
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,70): warning C4244:         [
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,70): warning C4244:             T=int
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(319,70): warning C4244:         ]
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,120): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,120): warning C4244:         with
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,120): warning C4244:         [
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,120): warning C4244:             T=float
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,120): warning C4244:         ]
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,120): warning C4244:         and
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,120): warning C4244:         [
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,120): warning C4244:             T=int
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,120): warning C4244:         ]
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,86): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,86): warning C4244:         with
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,86): warning C4244:         [
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,86): warning C4244:             T=float
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,86): warning C4244:         ]
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,86): warning C4244:         and
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,86): warning C4244:         [
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,86): warning C4244:             T=int
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(333,86): warning C4244:         ]
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(359,31): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(375,31): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(399,32): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(399,27): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(402,37): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(402,32): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(409,28): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(412,31): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(423,32): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(462,37): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(462,31): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(474,36): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(474,31): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(491,34): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(634,33): warning C4305: '-=': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(638,33): warning C4305: '+=': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(643,21): warning C4305: '+=': truncation from 'double' to 'T'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(643,21): warning C4305:         with
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(643,21): warning C4305:         [
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(643,21): warning C4305:             T=float
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(643,21): warning C4305:         ]
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(648,33): warning C4305: '-=': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(652,33): warning C4305: '+=': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(713,16): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(715,86): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(715,86): warning C4244:         with
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(715,86): warning C4244:         [
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(715,86): warning C4244:             T=int
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(715,86): warning C4244:         ]
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(715,74): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(715,74): warning C4244:         with
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(715,74): warning C4244:         [
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(715,74): warning C4244:             T=int
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(715,74): warning C4244:         ]
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(715,57): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(715,57): warning C4244:         with
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(715,57): warning C4244:         [
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(715,57): warning C4244:             T=int
-C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\FireboyWatergirl\game.cpp(715,57): warning C4244:         ]
-  FireboyWatergirl.vcxproj -> C:\Users\lenovo thinkpad E15\Desktop\FireboyWatergirl\Debug\FireboyWatergirl.exe
->>>>>>> c8b49d970d36dad0bb037a914d01042baef25bf5
