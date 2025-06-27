@@ -40,7 +40,7 @@ A cooperative 2D puzzle-platformer game inspired by *Fireboy and Watergirl*, dev
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/fireboy-watergirl-clone.git
+   git clone https://github.com/tarek-moh/FireboyWatergirl.git
    cd fireboy-watergirl-clone
    
 2. **Install SFML**
